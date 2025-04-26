@@ -1040,17 +1040,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    // Add this at top of script section
-const scriptUrl = 'https://script.google.com/macros/s/AKfycbxXevBaEkx14FL0sz4JY5gaYZFJx38NFrK-jc8N3gxbKkL3UQi_7HTESGVLZ0G6vHGR/exec';
 
-function callGoogleScript(functionName, params) {
-  return fetch(scriptUrl + `?fn=${functionName}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(params)
-  }).then(res => res.json());
-}
-    <script>
         // Demo questions data
         const demoQuestions = [
             {
@@ -1343,6 +1333,17 @@ function callGoogleScript(functionName, params) {
                 }
             });
         }
+        // Add this at top of script section
+const scriptUrl = 'https://script.google.com/macros/s/AKfycbxXevBaEkx14FL0sz4JY5gaYZFJx38NFrK-jc8N3gxbKkL3UQi_7HTESGVLZ0G6vHGR/exec';
+
+function callGoogleScript(functionName, params) {
+  return fetch(scriptUrl + `?fn=${functionName}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params)
+  }).then(res => res.json());
+}
+    
         
         // Show dashboard
         function showDashboard() {
