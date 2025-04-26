@@ -1040,250 +1040,689 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    // Add this at top of script section
+const scriptUrl = 'https://script.google.com/macros/s/AKfycbxXevBaEkx14FL0sz4JY5gaYZFJx38NFrK-jc8N3gxbKkL3UQi_7HTESGVLZ0G6vHGR/exec';
+
+function callGoogleScript(functionName, params) {
+  return fetch(scriptUrl + `?fn=${functionName}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params)
+  }).then(res => res.json());
+}
     <script>
-        // Global variables
-        let currentUser = null;
-        let currentTest = null;
-        let timerInterval = null;
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbyO14EePVFNdlq8cYT499g-BG94UvW91V4F8Jz6jHhIy6WbK7WBiwjFAKGFptgJfwKN/exec';
+        // Demo questions data
+        const demoQuestions = [
+            {
+                id: 1,
+                text: "A shopkeeper gives a 10% discount and still earns 10% profit. The marked price of the item is how many times (correct to 2 decimal places) the cost price?",
+                options: ["1.28", "1.24", "1.22", "1.20"],
+                correctAnswer: 2, // Index of correct answer (0-based)
+                solution: "Let the cost price (CP) be ₹100. With 10% profit, selling price (SP) = ₹110. This SP is after 10% discount on marked price (MP). So, 90% of MP = ₹110 → MP = ₹110 × (100/90) = ₹122.22. Therefore, MP/CP = 122.22/100 = 1.22",
+                difficulty: "Medium",
+                attempted: 89,
+                correct: 45,
+                avgTime: 62
+            },
+            {
+                id: 2,
+                text: "If the ratio of the ages of A and B is 3:5 and the sum of their ages is 80 years, what is the age of B?",
+                options: ["30 years", "40 years", "50 years", "60 years"],
+                correctAnswer: 2,
+                solution: "Let the ages of A and B be 3x and 5x respectively. According to the problem, 3x + 5x = 80 → 8x = 80 → x = 10. Therefore, age of B = 5x = 5 × 10 = 50 years.",
+                difficulty: "Easy",
+                attempted: 95,
+                correct: 78,
+                avgTime: 45
+            },
+            {
+                id: 3,
+                text: "A train 150 meters long is running at a speed of 90 km/h. How long will it take to pass a 200-meter-long platform?",
+                options: ["10 seconds", "12 seconds", "14 seconds", "16 seconds"],
+                correctAnswer: 2,
+                solution: "Total distance to cover = length of train + length of platform = 150 + 200 = 350 meters. Speed = 90 km/h = 90 × (5/18) = 25 m/s. Time = Distance/Speed = 350/25 = 14 seconds.",
+                difficulty: "Medium",
+                attempted: 82,
+                correct: 55,
+                avgTime: 75
+            }
+        ];
 
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            checkLoginStatus();
-            setupEventListeners();
+        // Current test state
+        let currentTest = {
+            id: null,
+            questions: [],
+            currentQuestionIndex: 0,
+            responses: {},
+            markedForReview: [],
+            startTime: null,
+            timerInterval: null
+        };
+
+        // Login/Signup Modal Toggle
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
         });
-
-        // Check if user is logged in
-        function checkLoginStatus() {
-            const userData = localStorage.getItem('yugalMockerUser');
-            if (userData) {
-                currentUser = JSON.parse(userData);
+        
+        document.getElementById('signupBtn').addEventListener('click', function() {
+            var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+            signupModal.show();
+        });
+        
+        document.getElementById('heroSignupBtn').addEventListener('click', function() {
+            var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+            signupModal.show();
+        });
+        
+        document.getElementById('showSignupFromLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            var loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            loginModal.hide();
+            var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+            signupModal.show();
+        });
+        
+        document.getElementById('showLoginFromSignup').addEventListener('click', function(e) {
+            e.preventDefault();
+            var signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
+            signupModal.hide();
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        });
+        
+        // Form Submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Simulate login
+            showDashboard();
+            var loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            loginModal.hide();
+        });
+        
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Simulate signup
+            var signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
+            signupModal.hide();
+            
+            // Show success message
+            alert('Account created successfully! Please login to continue.');
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        });
+        
+        // Test Interface
+        document.querySelectorAll('.option-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const options = document.querySelectorAll('.option-item');
+                options.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                
+                // Save response
+                const questionNumber = currentTest.currentQuestionIndex + 1;
+                const selectedOption = parseInt(this.getAttribute('data-option'));
+                currentTest.responses[questionNumber] = selectedOption;
+                
+                // Update answered count
+                updateAnsweredCount();
+            });
+        });
+        
+        // Start test buttons
+        document.querySelectorAll('.start-test-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const testId = this.getAttribute('data-test-id');
+                startTest(testId);
+            });
+        });
+        
+        // View analysis buttons
+        document.querySelectorAll('.view-analysis-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showTestAnalysis();
+            });
+        });
+        
+        // Navigation buttons
+        document.getElementById('saveNextBtn').addEventListener('click', function() {
+            navigateQuestion(1);
+        });
+        
+        document.getElementById('markForReviewBtn').addEventListener('click', function() {
+            const questionNumber = currentTest.currentQuestionIndex + 1;
+            if (currentTest.markedForReview.includes(questionNumber)) {
+                currentTest.markedForReview = currentTest.markedForReview.filter(q => q !== questionNumber);
+                this.classList.remove('btn-warning');
+                this.classList.add('btn-outline-primary');
+                this.textContent = 'Mark & Save For Review';
+            } else {
+                currentTest.markedForReview.push(questionNumber);
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-warning');
+                this.textContent = 'Marked For Review';
+            }
+            
+            // Update question palette
+            updateQuestionPalette();
+        });
+        
+        document.getElementById('clearResponseBtn').addEventListener('click', function() {
+            const questionNumber = currentTest.currentQuestionIndex + 1;
+            delete currentTest.responses[questionNumber];
+            
+            // Clear selection
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+                const radio = item.querySelector('input[type="radio"]');
+                radio.checked = false;
+            });
+            
+            // Update counts
+            updateAnsweredCount();
+            updateQuestionPalette();
+        });
+        
+        document.getElementById('submitTestBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to submit the test?')) {
+                submitTest();
+            }
+        });
+        
+        document.getElementById('quitTestBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to quit the test? Your progress will be lost.')) {
                 showDashboard();
             }
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Login form submission
-            document.getElementById('loginForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                
-                try {
-                    const response = await callGoogleScript('loginUser', { email, password });
-                    if (response.success) {
-                        currentUser = response.user;
-                        localStorage.setItem('yugalMockerUser', JSON.stringify(currentUser));
-                        showDashboard();
-                        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-                    } else {
-                        alert(response.message || 'Login failed');
-                    }
-                } catch (error) {
-                    console.error('Login error:', error);
-                    alert('An error occurred during login');
-                }
-            });
-
-            // Signup form submission
-            document.getElementById('signupForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const formData = {
-                    name: document.getElementById('signupName').value,
-                    email: document.getElementById('signupEmail').value,
-                    password: document.getElementById('signupPassword').value,
-                    category: document.getElementById('signupExamCategory').value
-                };
-                
-                try {
-                    const response = await callGoogleScript('registerUser', formData);
-                    if (response.success) {
-                        alert('Account created successfully! Please login.');
-                        bootstrap.Modal.getInstance(document.getElementById('signupModal')).hide();
-                        document.getElementById('loginModal').show();
-                    } else {
-                        alert(response.message || 'Registration failed');
-                    }
-                } catch (error) {
-                    console.error('Signup error:', error);
-                    alert('An error occurred during registration');
-                }
-            });
-
-            // Logout button
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                if (confirm('Are you sure you want to logout?')) {
-                    localStorage.removeItem('yugalMockerUser');
-                    currentUser = null;
-                    window.location.reload();
-                }
-            });
-
-            // Start test buttons
-            document.querySelectorAll('.start-test-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const testId = this.getAttribute('data-test-id');
-                    startTest(testId);
-                });
-            });
-
-            // View analysis buttons
-            document.querySelectorAll('.view-analysis-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const testId = this.getAttribute('data-test-id');
-                    showTestAnalysis(testId);
-                });
-            });
-
-            // Test interface buttons
-            document.getElementById('submitTestBtn').addEventListener('click', submitTest);
-            document.getElementById('quitTestBtn').addEventListener('click', quitTest);
-            document.getElementById('markForReviewBtn').addEventListener('click', markForReview);
-            document.getElementById('clearResponseBtn').addEventListener('click', clearResponse);
-            document.getElementById('saveNextBtn').addEventListener('click', saveAndNext);
-        }
-
-        // Call Google Apps Script function
-        async function callGoogleScript(functionName, params) {
-            try {
-                const response = await fetch(scriptUrl + `?fn=${functionName}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(params)
-                });
-                return await response.json();
-            } catch (error) {
-                console.error('API call error:', error);
-                throw error;
+        });
+        
+        // Dashboard navigation
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('dashboardInterface').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('mainFooter').style.display = 'block';
             }
+        });
+        
+        document.getElementById('backToDashboard').addEventListener('click', function(e) {
+            e.preventDefault();
+            showDashboard();
+        });
+        
+        // Initialize Dashboard Charts
+        function initializeDashboard() {
+            // Section Performance Chart
+            const sectionCtx = document.getElementById('sectionPerformanceChart').getContext('2d');
+            const sectionChart = new Chart(sectionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Quantitative', 'General Intelligence', 'English', 'General Awareness'],
+                    datasets: [{
+                        label: 'Accuracy %',
+                        data: [85, 77, 80, 62],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+            
+            // Progress Chart
+            const progressCtx = document.getElementById('progressChart').getContext('2d');
+            const progressChart = new Chart(progressCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+                    datasets: [{
+                        label: 'All India Rank',
+                        data: [4500, 3200, 2100, 1245],
+                        borderColor: 'rgba(78, 115, 223, 1)',
+                        backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            reverse: true,
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
         }
-
+        
+        // Initialize Test Analysis Charts
+        function initializeTestAnalysis() {
+            // Score Distribution Chart
+            const scoreCtx = document.getElementById('scoreDistributionChart').getContext('2d');
+            const scoreChart = new Chart(scoreCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-50', '51-100', '101-150', '151-200'],
+                    datasets: [{
+                        label: 'Number of Students',
+                        data: [1200, 3500, 2800, 500],
+                        backgroundColor: 'rgba(28, 200, 138, 0.7)',
+                        borderColor: 'rgba(28, 200, 138, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
         // Show dashboard
         function showDashboard() {
-            document.getElementById('mainContent').style.display = 'none';
+            // Hide other interfaces
             document.getElementById('testInterface').style.display = 'none';
             document.getElementById('testAnalysisInterface').style.display = 'none';
-            document.getElementById('dashboardInterface').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'none';
             
-            loadDashboardData();
+            // Show dashboard
+            document.getElementById('dashboardInterface').style.display = 'block';
+            document.getElementById('mainFooter').style.display = 'block';
+            
+            // Initialize charts
+            initializeDashboard();
         }
-
-        // Load dashboard data
-        async function loadDashboardData() {
-            try {
-                const tests = await callGoogleScript('getUpcomingTests');
-                renderTestList(tests);
-                
-                const results = await callGoogleScript('getUserResults', { userId: currentUser.id });
-                renderRecentTests(results);
-                
-                initializeCharts();
-            } catch (error) {
-                console.error('Error loading dashboard data:', error);
-            }
+        
+        // Show test analysis
+        function showTestAnalysis() {
+            // Hide other interfaces
+            document.getElementById('dashboardInterface').style.display = 'none';
+            document.getElementById('testInterface').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+            
+            // Show test analysis
+            document.getElementById('testAnalysisInterface').style.display = 'block';
+            document.getElementById('mainFooter').style.display = 'block';
+            
+            // Initialize charts
+            initializeTestAnalysis();
         }
-
+        
         // Start a test
-        async function startTest(testId) {
-            try {
-                const testData = await callGoogleScript('getTestDetails', { testId });
-                currentTest = {
-                    ...testData,
-                    startTime: new Date(),
-                    responses: {},
-                    currentQuestionIndex: 0
-                };
+        function startTest(testId) {
+            // Set up test
+            currentTest = {
+                id: testId,
+                questions: demoQuestions,
+                currentQuestionIndex: 0,
+                responses: {},
+                markedForReview: [],
+                startTime: new Date(),
+                timerInterval: null
+            };
+            
+            // Hide other interfaces
+            document.getElementById('dashboardInterface').style.display = 'none';
+            document.getElementById('testAnalysisInterface').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('mainFooter').style.display = 'none';
+            
+            // Show test interface
+            document.getElementById('testInterface').style.display = 'block';
+            
+            // Set test title based on ID
+            let testTitle = "Quantitative Aptitude Test";
+            if (testId === "ssc1") testTitle = "SSC CGL Tier-I Mock Test";
+            else if (testId === "neet1") testTitle = "NEET 2024 Mock Test";
+            else if (testId === "gate1") testTitle = "GATE 2025 Mock Test";
+            
+            document.getElementById('testTitle').textContent = testTitle;
+            document.getElementById('totalQuestions').textContent = demoQuestions.length;
+            
+            // Initialize question palette
+            const palette = document.getElementById('questionPalette');
+            palette.innerHTML = '';
+            
+            for (let i = 0; i < demoQuestions.length; i++) {
+                const col = document.createElement('div');
+                col.className = 'col-2 col-md-1';
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-sm btn-outline-primary w-100 mb-2';
+                btn.textContent = i + 1;
+                btn.addEventListener('click', function() {
+                    navigateToQuestion(i);
+                });
+                col.appendChild(btn);
+                palette.appendChild(col);
+            }
+            
+            // Start timer
+            let timeLeft = 30 * 60; // 30 minutes
+            const timer = document.getElementById('testTimer');
+            
+            currentTest.timerInterval = setInterval(function() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
                 
-                document.getElementById('mainContent').style.display = 'none';
-                document.getElementById('dashboardInterface').style.display = 'none';
-                document.getElementById('testAnalysisInterface').style.display = 'none';
-                document.getElementById('testInterface').style.display = 'block';
+                if (timeLeft <= 0) {
+                    clearInterval(currentTest.timerInterval);
+                    submitTest();
+                } else {
+                    timeLeft--;
+                }
+            }, 1000);
+            
+            // Load first question
+            loadQuestion(0);
+        }
+        
+        // Load a question
+        function loadQuestion(index) {
+            if (index < 0 || index >= currentTest.questions.length) return;
+            
+            currentTest.currentQuestionIndex = index;
+            const question = currentTest.questions[index];
+            
+            // Update question display
+            document.getElementById('currentQuestionNumber').textContent = index + 1;
+            document.getElementById('questionText').textContent = question.text;
+            
+            // Update options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            for (let i = 0; i < question.options.length; i++) {
+                const optionItem = document.createElement('div');
+                optionItem.className = 'option-item';
+                optionItem.setAttribute('data-option', i + 1);
                 
-                document.getElementById('testTitle').textContent = currentTest.name;
-                document.getElementById('totalQuestions').textContent = currentTest.questions.length;
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'questionOption';
+                radio.id = `option${i + 1}`;
+                radio.className = 'me-2';
                 
-                initializeQuestionPalette();
-                loadQuestion(0);
-                startTimer(currentTest.duration * 60); // Convert minutes to seconds
-            } catch (error) {
-                console.error('Error starting test:', error);
-                alert('Failed to start test');
+                // Check if this option was selected
+                if (currentTest.responses[index + 1] === i + 1) {
+                    radio.checked = true;
+                    optionItem.classList.add('selected');
+                }
+                
+                const label = document.createElement('label');
+                label.htmlFor = `option${i + 1}`;
+                label.textContent = question.options[i];
+                
+                optionItem.appendChild(radio);
+                optionItem.appendChild(label);
+                
+                // Add click event
+                optionItem.addEventListener('click', function() {
+                    const options = document.querySelectorAll('.option-item');
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    radio.checked = true;
+                    
+                    // Save response
+                    currentTest.responses[index + 1] = i + 1;
+                    updateAnsweredCount();
+                });
+                
+                optionsContainer.appendChild(optionItem);
+            }
+            
+            // Update mark for review button
+            const markBtn = document.getElementById('markForReviewBtn');
+            if (currentTest.markedForReview.includes(index + 1)) {
+                markBtn.classList.remove('btn-outline-primary');
+                markBtn.classList.add('btn-warning');
+                markBtn.textContent = 'Marked For Review';
+            } else {
+                markBtn.classList.remove('btn-warning');
+                markBtn.classList.add('btn-outline-primary');
+                markBtn.textContent = 'Mark & Save For Review';
+            }
+            
+            // Update question palette
+            updateQuestionPalette();
+        }
+        
+        // Navigate to a specific question
+        function navigateToQuestion(index) {
+            loadQuestion(index);
+        }
+        
+        // Navigate to next/previous question
+        function navigateQuestion(direction) {
+            const newIndex = currentTest.currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < currentTest.questions.length) {
+                loadQuestion(newIndex);
             }
         }
-
-        // Submit test
-        async function submitTest() {
-            if (confirm('Are you sure you want to submit the test?')) {
-                clearInterval(timerInterval);
+        
+        // Update answered count
+        function updateAnsweredCount() {
+            const answered = Object.keys(currentTest.responses).length;
+            document.getElementById('answeredCount').textContent = answered;
+        }
+        
+        // Update question palette
+        function updateQuestionPalette() {
+            const paletteButtons = document.querySelectorAll('#questionPalette button');
+            
+            for (let i = 0; i < paletteButtons.length; i++) {
+                const questionNumber = i + 1;
+                const btn = paletteButtons[i];
                 
-                try {
-                    const result = await callGoogleScript('submitTest', {
-                        userId: currentUser.id,
-                        testId: currentTest.id,
-                        responses: currentTest.responses,
-                        duration: Math.floor((new Date() - currentTest.startTime) / 1000)
-                    });
-                    
-                    showTestAnalysis(currentTest.id);
-                } catch (error) {
-                    console.error('Error submitting test:', error);
-                    alert('Failed to submit test');
+                // Reset classes
+                btn.className = 'btn btn-sm w-100 mb-2';
+                
+                // Current question
+                if (i === currentTest.currentQuestionIndex) {
+                    btn.classList.add('btn-primary');
+                } 
+                // Answered questions
+                else if (currentTest.responses[questionNumber]) {
+                    btn.classList.add('btn-success');
+                }
+                // Marked for review
+                else if (currentTest.markedForReview.includes(questionNumber)) {
+                    btn.classList.add('btn-warning');
+                }
+                // Unanswered questions
+                else {
+                    btn.classList.add('btn-outline-primary');
                 }
             }
         }
-
-        // Show test analysis
-        async function showTestAnalysis(testId) {
-            try {
-                const analysis = await callGoogleScript('getTestAnalysis', { 
-                    userId: currentUser.id, 
-                    testId 
-                });
-                
-                document.getElementById('testInterface').style.display = 'none';
-                document.getElementById('dashboardInterface').style.display = 'none';
-                document.getElementById('testAnalysisInterface').style.display = 'block';
-                
-                renderTestAnalysis(analysis);
-            } catch (error) {
-                console.error('Error loading test analysis:', error);
-                alert('Failed to load test analysis');
-            }
+        
+        // Submit test
+        function submitTest() {
+            clearInterval(currentTest.timerInterval);
+            
+            // Calculate score (for demo purposes)
+            let score = 0;
+            let correctAnswers = 0;
+            let wrongAnswers = 0;
+            
+            currentTest.questions.forEach((q, index) => {
+                const questionNumber = index + 1;
+                if (currentTest.responses[questionNumber]) {
+                    if (currentTest.responses[questionNumber] === q.correctAnswer + 1) {
+                        score += 3; // 3 marks for correct answer
+                        correctAnswers++;
+                    } else {
+                        score -= 1; // -1 for wrong answer
+                        wrongAnswers++;
+                    }
+                }
+            });
+            
+            // For demo, show test analysis
+            showTestAnalysis();
         }
-
-        // Helper functions for test interface
-        function loadQuestion(index) {
-            // Implementation for loading question
-        }
-
-        function startTimer(seconds) {
-            // Implementation for timer
-        }
-
-        function initializeQuestionPalette() {
-            // Implementation for question palette
-        }
-
-        // Initialize charts
-        function initializeCharts() {
-            // Implementation for charts
-        }
-
-        // Render functions
-        function renderTestList(tests) {
-            // Implementation for rendering test list
-        }
-
-        function renderRecentTests(results) {
-            // Implementation for rendering recent tests
-        }
-
-        function renderTestAnalysis(analysis) {
-            // Implementation for rendering test analysis
-        }
+        
+        // For demo - automatically show dashboard on page load
+        window.addEventListener('load', function() {
+            // Uncomment this line to automatically show dashboard (for demo)
+            // showDashboard();
+        });
     </script>
+    <script>
+        
+// Global State
+let currentUser = null;
+let currentTest = null;
+let timerInterval = null;
+
+// Auth Handlers
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  try {
+    const response = await google.script.run.withSuccessHandler(handleLogin).loginUser(email, password);
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = {
+    name: document.getElementById('signupName').value,
+    email: document.getElementById('signupEmail').value,
+    password: document.getElementById('signupPassword').value,
+    category: document.getElementById('signupExamCategory').value
+  };
+  
+  try {
+    const response = await google.script.run.withSuccessHandler(handleSignup).registerUser(formData);
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+// Test Handling
+document.querySelectorAll('.start-test').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    const testId = e.target.dataset.testId;
+    currentTest = {
+      id: testId,
+      questions: await google.script.run.withSuccessHandler(getTestQuestions).getTestQuestions(testId),
+      responses: {},
+      startTime: Date.now()
+    };
+    showTestInterface();
+    startTimer(1800); // 30 minutes
+  });
+});
+
+// Submit Test
+document.getElementById('submitTestBtn').addEventListener('click', () => {
+  clearInterval(timerInterval);
+  calculateResults();
+});
+
+// Helper Functions
+function handleLogin(response) {
+  if (response.success) {
+    currentUser = response.user;
+    showDashboard();
+  } else {
+    alert(response.message);
+  }
+}
+
+function showDashboard() {
+  // Fetch and display user data
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('dashboardInterface').style.display = 'block';
+  loadDashboardData();
+}
+
+async function loadDashboardData() {
+  const tests = await google.script.run.withSuccessHandler().getUpcomingTests());
+  // Render tests in dashboard
+}
+
+function showTestInterface() {
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('testInterface').style.display = 'block';
+  renderQuestion(0);
+}
+
+function renderQuestion(index) {
+  const question = currentTest.questions[index];
+  // Update question text and options
+}
+
+function startTimer(seconds) {
+  let remaining = seconds;
+  timerInterval = setInterval(() => {
+    const mins = Math.floor(remaining / 60);
+    const secs = remaining % 60;
+    document.getElementById('testTimer').textContent = 
+      `${mins}:${secs.toString().padStart(2, '0')}`;
+    
+    if (--remaining < 0) {
+      clearInterval(timerInterval);
+      calculateResults();
+    }
+  }, 1000);
+}
+
+function calculateResults() {
+  let correct = 0;
+  currentTest.questions.forEach((q, index) => {
+    if (currentTest.responses[index] === q[7]) correct++;
+  });
+  
+  const resultData = {
+    userId: currentUser.id,
+    testId: currentTest.id,
+    score: correct * 3,
+    total: currentTest.questions.length * 3,
+    correct: correct,
+    wrong: currentTest.questions.length - correct,
+    accuracy: (correct / currentTest.questions.length * 100).toFixed(1)
+  };
+  
+  google.script.run.withSuccessHandler(showAnalysis).saveTestResult(resultData);
+}
+
+function showAnalysis() {
+  document.getElementById('testInterface').style.display = 'none';
+  document.getElementById('testAnalysisInterface').style.display = 'block';
+  // Load analysis data
+}
+</script>
 </body>
 </html>
