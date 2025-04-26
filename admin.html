@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yugal Mocker - Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --admin-primary: #dc3545;
+            --admin-secondary: #6c757d;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .navbar-admin {
+            background-color: var(--admin-primary) !important;
+        }
+        
+        .sidebar {
+            background-color: white;
+            min-height: 100vh;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        
+        .sidebar .nav-link {
+            color: #5a5c69;
+            padding: 1rem;
+            font-weight: 600;
+        }
+        
+        .sidebar .nav-link.active {
+            color: var(--admin-primary);
+            background-color: #f8f9fc;
+        }
+        
+        .sidebar .nav-link:hover {
+            color: var(--admin-primary);
+        }
+        
+        .admin-card {
+            border-left: 5px solid var(--admin-primary);
+            border-radius: 5px;
+        }
+        
+        .btn-admin {
+            background-color: var(--admin-primary);
+            border-color: var(--admin-primary);
+        }
+        
+        .btn-admin-outline {
+            border-color: var(--admin-primary);
+            color: var(--admin-primary);
+        }
+        
+        .btn-admin-outline:hover {
+            background-color: var(--admin-primary);
+            color: white;
+        }
+        
+        .question-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
+        <div class="container">
+            <a class="navbar-brand" href="#">Yugal Mocker Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="adminNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="adminLogoutBtn"><i class="fas fa-sign-out-alt me-1"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar p-0">
+                <div class="p-3">
+                    <div class="text-center mb-4">
+                        <img src="https://via.placeholder.com/80" class="rounded-circle mb-2" alt="Admin Profile">
+                        <h6 id="adminName">Admin User</h6>
+                        <small class="text-muted">Administrator</small>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-section="dashboard"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="tests"><i class="fas fa-clipboard-list me-2"></i> Tests</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="questions"><i class="fas fa-question-circle me-2"></i> Questions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="users"><i class="fas fa-users me-2"></i> Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="results"><i class="fas fa-chart-bar me-2"></i> Results</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="settings"><i class="fas fa-cog me-2"></i> Settings</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-10 p-4">
+                <!-- Admin Login (Shown by default) -->
+                <div id="adminLoginForm" style="display: none;">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center mb-4">Admin Login</h3>
+                                    <form id="adminAuthForm">
+                                        <div class="mb-3">
+                                            <label for="adminEmail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="adminEmail" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="adminPassword" class="form-label">Password</label>
+                                            <input type="password" class="form-control" id="adminPassword" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-admin w-100">Login</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Admin Dashboard (Hidden by default) -->
+                <div id="adminDashboard" style="display: none;">
+                    <h3 class="mb-4">Admin Dashboard</h3>
+                    
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card admin-card">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Active Tests</h6>
+                                    <h3 class="card-title" id="activeTestsCount">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card admin-card">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Total Users</h6>
+                                    <h3 class="card-title" id="totalUsersCount">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card admin-card">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Questions</h6>
+                                    <h3 class="card-title" id="totalQuestionsCount">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card admin-card">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Results</h6>
+                                    <h3 class="card-title" id="totalResultsCount">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Recent Activity</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="recentActivity"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tests Management Section -->
+                <div id="testsSection" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Manage Tests</h3>
+                        <button class="btn btn-admin" id="addTestBtn"><i class="fas fa-plus me-1"></i> Add Test</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="testsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Test Name</th>
+                                            <th>Category</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Duration</th>
+                                            <th>Questions</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Tests will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add/Edit Test Form -->
+                    <div class="card mt-4" id="testFormCard" style="display: none;">
+                        <div class="card-body">
+                            <h5 class="card-title" id="testFormTitle">Add New Test</h5>
+                            <form id="testForm">
+                                <input type="hidden" id="testId">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="testName" class="form-label">Test Name</label>
+                                        <input type="text" class="form-control" id="testName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="testCategory" class="form-label">Category</label>
+                                        <select class="form-select" id="testCategory" required>
+                                            <option value="">Select Category</option>
+                                            <option value="ssc">SSC</option>
+                                            <option value="gate">GATE</option>
+                                            <option value="jee">JEE</option>
+                                            <option value="neet">NEET</option>
+                                            <option value="upsc">UPSC</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="testStartDate" class="form-label">Start Date & Time</label>
+                                        <input type="datetime-local" class="form-control" id="testStartDate" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="testEndDate" class="form-label">End Date & Time</label>
+                                        <input type="datetime-local" class="form-control" id="testEndDate" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="testDuration" class="form-label">Duration (minutes)</label>
+                                        <input type="number" class="form-control" id="testDuration" required>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-secondary me-2" id="cancelTestBtn">Cancel</button>
+                                    <button type="submit" class="btn btn-admin">Save Test</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Questions Management Section -->
+                <div id="questionsSection" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Manage Questions</h3>
+                        <div>
+                            <select class="form-select me-2" id="questionTestFilter" style="width: 200px; display: inline-block;">
+                                <option value="">All Tests</option>
+                            </select>
+                            <button class="btn btn-admin" id="addQuestionBtn"><i class="fas fa-plus me-1"></i> Add Question</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="questionsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Question</th>
+                                            <th>Test</th>
+                                            <th>Options</th>
+                                            <th>Correct</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Questions will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add/Edit Question Form -->
+                    <div class="card mt-4" id="questionFormCard" style="display: none;">
+                        <div class="card-body question-form">
+                            <h5 class="card-title" id="questionFormTitle">Add New Question</h5>
+                            <form id="questionForm">
+                                <input type="hidden" id="questionId">
+                                <div class="mb-3">
+                                    <label for="questionTest" class="form-label">Test</label>
+                                    <select class="form-select" id="questionTest" required>
+                                        <option value="">Select Test</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="questionText" class="form-label">Question Text</label>
+                                    <textarea class="form-control" id="questionText" rows="3" required></textarea>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="option1" class="form-label">Option 1</label>
+                                        <input type="text" class="form-control" id="option1" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="option2" class="form-label">Option 2</label>
+                                        <input type="text" class="form-control" id="option2" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="option3" class="form-label">Option 3</label>
+                                        <input type="text" class="form-control" id="option3" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="option4" class="form-label">Option 4</label>
+                                        <input type="text" class="form-control" id="option4" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correctOption" class="form-label">Correct Option</label>
+                                    <select class="form-select" id="correctOption" required>
+                                        <option value="">Select Correct Option</option>
+                                        <option value="1">Option 1</option>
+                                        <option value="2">Option 2</option>
+                                        <option value="3">Option 3</option>
+                                        <option value="4">Option 4</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="questionExplanation" class="form-label">Explanation</label>
+                                    <textarea class="form-control" id="questionExplanation" rows="3"></textarea>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-secondary me-2" id="cancelQuestionBtn">Cancel</button>
+                                    <button type="submit" class="btn btn-admin">Save Question</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Users Management Section -->
+                <div id="usersSection" style="display: none;">
+                    <h3 class="mb-4">Manage Users</h3>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="usersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Category</th>
+                                            <th>Joined</th>
+                                            <th>Tests Taken</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Users will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Management Section -->
+                <div id="resultsSection" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Test Results</h3>
+                        <select class="form-select" id="resultsTestFilter" style="width: 200px;">
+                            <option value="">All Tests</option>
+                        </select>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="resultsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Test</th>
+                                            <th>Score</th>
+                                            <th>Correct</th>
+                                            <th>Wrong</th>
+                                            <th>Percentile</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Results will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Section -->
+                <div id="settingsSection" style="display: none;">
+                    <h3 class="mb-4">Settings</h3>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="settingsForm">
+                                <div class="mb-3">
+                                    <label for="adminNameInput" class="form-label">Admin Name</label>
+                                    <input type="text" class="form-control" id="adminNameInput">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="adminEmailInput" class="form-label">Admin Email</label>
+                                    <input type="email" class="form-control" id="adminEmailInput">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="adminPasswordInput" class="form-label">New Password</label>
+                                    <input type="password" class="form-control" id="adminPasswordInput">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="adminConfirmPassword" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control" id="adminConfirmPassword">
+                                </div>
+                                <button type="submit" class="btn btn-admin">Save Settings</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Global variables
+        let adminToken = null;
+        const scriptUrl = 'YOUR_APPS_SCRIPT_WEB_APP_URL';
+        
+        // Initialize the admin panel
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminLogin();
+            setupAdminEventListeners();
+        });
+        
+        // Check if admin is logged in
+        function checkAdminLogin() {
+            const token = localStorage.getItem('yugalMockerAdminToken');
+            if (token) {
+                adminToken = token;
+                showAdminDashboard();
+            } else {
+                showAdminLogin();
+            }
+        }
+        
+        // Setup event listeners
+        function setupAdminEventListeners() {
+            // Admin login form
+            document.getElementById('adminAuthForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('adminEmail').value;
+                const password = document.getElementById('adminPassword').value;
+                
+                try {
+                    const response = await callAdminScript('adminLogin', { email, password });
+                    if (response.success) {
+                        adminToken = response.token;
+                        localStorage.setItem('yugalMockerAdminToken', adminToken);
+                        showAdminDashboard();
+                    } else {
+                        alert(response.message || 'Admin login failed');
+                    }
+                } catch (error) {
+                    console.error('Admin login error:', error);
+                    alert('An error occurred during admin login');
+                }
+            });
+            
+            // Admin logout
+            document.getElementById('adminLogoutBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('yugalMockerAdminToken');
+                    adminToken = null;
+                    window.location.reload();
+                }
+            });
+            
+            // Sidebar navigation
+            document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    showAdminSection(section);
+                });
+            });
+            
+            // Test management
+            document.getElementById('addTestBtn').addEventListener('click', showTestForm);
+            document.getElementById('cancelTestBtn').addEventListener('click', hideTestForm);
+            document.getElementById('testForm').addEventListener('submit', saveTest);
+            
+            // Question management
+            document.getElementById('addQuestionBtn').addEventListener('click', showQuestionForm);
+            document.getElementById('cancelQuestionBtn').addEventListener('click', hideQuestionForm);
+            document.getElementById('questionForm').addEventListener('submit', saveQuestion);
+            document.getElementById('questionTestFilter').addEventListener('change', filterQuestions);
+            
+            // Results filter
+            document.getElementById('resultsTestFilter').addEventListener('change', filterResults);
+        }
+        
+        // Call Google Apps Script function for admin
+        async function callAdminScript(functionName, params) {
+            try {
+                const response = await fetch(scriptUrl + `?fn=${functionName}`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${adminToken}`
+                    },
+                    body: JSON.stringify(params)
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('Admin API call error:', error);
+                throw error;
+            }
+        }
+        
+        // Show admin login form
+        function showAdminLogin() {
+            document.getElementById('adminLoginForm').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('testsSection').style.display = 'none';
+            document.getElementById('questionsSection').style.display = 'none';
+            document.getElementById('usersSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('settingsSection').style.display = 'none';
+        }
+        
+        // Show admin dashboard
+        async function showAdminDashboard() {
+            document.getElementById('adminLoginForm').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'block';
+            
+            try {
+                // Load admin data
+                const stats = await callAdminScript('getAdminStats');
+                document.getElementById('activeTestsCount').textContent = stats.activeTests || 0;
+                document.getElementById('totalUsersCount').textContent = stats.totalUsers || 0;
+                document.getElementById('totalQuestionsCount').textContent = stats.totalQuestions || 0;
+                document.getElementById('totalResultsCount').textContent = stats.totalResults || 0;
+                
+                // Load initial section
+                showAdminSection('dashboard');
+            } catch (error) {
+                console.error('Error loading admin dashboard:', error);
+                alert('Failed to load admin dashboard');
+            }
+        }
+        
+        // Show specific admin section
+        async function showAdminSection(section) {
+            // Hide all sections first
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('testsSection').style.display = 'none';
+            document.getElementById('questionsSection').style.display = 'none';
+            document.getElementById('usersSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('settingsSection').style.display = 'none';
+            
+            // Show the selected section
+            document.getElementById(`${section}Section`).style.display = 'block';
+            
+            // Update active nav link
+            document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === section) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load section data
+            try {
+                switch (section) {
+                    case 'tests':
+                        await loadTests();
+                        break;
+                    case 'questions':
+                        await loadQuestions();
+                        await loadTestFilter('questionTestFilter');
+                        await loadTestDropdown('questionTest');
+                        break;
+                    case 'users':
+                        await loadUsers();
+                        break;
+                    case 'results':
+                        await loadResults();
+                        await loadTestFilter('resultsTestFilter');
+                        break;
+                    case 'settings':
+                        await loadAdminSettings();
+                        break;
+                }
+            } catch (error) {
+                console.error(`Error loading ${section} section:`, error);
+                alert(`Failed to load ${section} data`);
+            }
+        }
+        
+        // Test management functions
+        async function loadTests() {
+            const tests = await callAdminScript('getAllTests');
+            renderTestsTable(tests);
+        }
+        
+        function renderTestsTable(tests) {
+            const tbody = document.querySelector('#testsTable tbody');
+            tbody.innerHTML = '';
+            
+            tests.forEach(test => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${test.name}</td>
+                    <td>${test.category}</td>
+                    <td>${formatDateTime(test.startDate)}</td>
+                    <td>${formatDateTime(test.endDate)}</td>
+                    <td>${test.duration} mins</td>
+                    <td>${test.questionCount}</td>
+                    <td>
+                        <button class="btn btn-sm btn-admin-outline me-1 edit-test" data-id="${test.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-test" data-id="${test.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // Add event listeners to edit/delete buttons
+            document.querySelectorAll('.edit-test').forEach(btn => {
+                btn.addEventListener('click', () => editTest(btn.dataset.id));
+            });
+            
+            document.querySelectorAll('.delete-test').forEach(btn => {
+                btn.addEventListener('click', () => deleteTest(btn.dataset.id));
+            });
+        }
+        
+        function showTestForm(testId = null) {
+            document.getElementById('testFormTitle').textContent = testId ? 'Edit Test' : 'Add New Test';
+            document.getElementById('testId').value = testId || '';
+            
+            if (testId) {
+                // Load test data for editing
+                // This would be populated from an API call in a real implementation
+            } else {
+                // Reset form for new test
+                document.getElementById('testForm').reset();
+            }
+            
+            document.getElementById('testFormCard').style.display = 'block';
+        }
+        
+        function hideTestForm() {
+            document.getElementById('testFormCard').style.display = 'none';
+        }
+        
+        async function saveTest(e) {
+            e.preventDefault();
+            
+            const testData = {
+                id: document.getElementById('testId').value,
+                name: document.getElementById('testName').value,
+                category: document.getElementById('testCategory').value,
+                startDate: document.getElementById('testStartDate').value,
+                endDate: document.getElementById('testEndDate').value,
+                duration: document.getElementById('testDuration').value
+            };
+            
+            try {
+                const response = await callAdminScript(testData.id ? 'updateTest' : 'addTest', testData);
+                if (response.success) {
+                    alert('Test saved successfully');
+                    hideTestForm();
+                    await loadTests();
+                } else {
+                    alert(response.message || 'Failed to save test');
+                }
+            } catch (error) {
+                console.error('Error saving test:', error);
+                alert('Failed to save test');
+            }
+        }
+        
+        async function editTest(testId) {
+            try {
+                const test = await callAdminScript('getTest', { id: testId });
+                if (test) {
+                    showTestForm(testId);
+                    // Populate form fields with test data
+                    document.getElementById('testName').value = test.name;
+                    document.getElementById('testCategory').value = test.category;
+                    document.getElementById('testStartDate').value = formatDateTimeForInput(test.startDate);
+                    document.getElementById('testEndDate').value = formatDateTimeForInput(test.endDate);
+                    document.getElementById('testDuration').value = test.duration;
+                }
+            } catch (error) {
+                console.error('Error loading test:', error);
+                alert('Failed to load test data');
+            }
+        }
+        
+        async function deleteTest(testId) {
+            if (confirm('Are you sure you want to delete this test? This cannot be undone.')) {
+                try {
+                    const response = await callAdminScript('deleteTest', { id: testId });
+                    if (response.success) {
+                        alert('Test deleted successfully');
+                        await loadTests();
+                    } else {
+                        alert(response.message || 'Failed to delete test');
+                    }
+                } catch (error) {
+                    console.error('Error deleting test:', error);
+                    alert('Failed to delete test');
+                }
+            }
+        }
+        
+        // Question management functions
+        async function loadQuestions() {
+            const questions = await callAdminScript('getAllQuestions');
+            renderQuestionsTable(questions);
+        }
+        
+        function renderQuestionsTable(questions) {
+            const tbody = document.querySelector('#questionsTable tbody');
+            tbody.innerHTML = '';
+            
+            questions.forEach(question => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${truncateText(question.text, 50)}</td>
+                    <td>${question.testName}</td>
+                    <td>${truncateText(question.options.join(', '), 30)}</td>
+                    <td>Option ${question.correctOption}</td>
+                    <td>
+                        <button class="btn btn-sm btn-admin-outline me-1 edit-question" data-id="${question.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-question" data-id="${question.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // Add event listeners to edit/delete buttons
+            document.querySelectorAll('.edit-question').forEach(btn => {
+                btn.addEventListener('click', () => editQuestion(btn.dataset.id));
+            });
+            
+            document.querySelectorAll('.delete-question').forEach(btn => {
+                btn.addEventListener('click', () => deleteQuestion(btn.dataset.id));
+            });
+        }
+        
+        async function loadTestFilter(selectId) {
+            const select = document.getElementById(selectId);
+            select.innerHTML = '<option value="">All Tests</option>';
+            
+            try {
+                const tests = await callAdminScript('getAllTests');
+                tests.forEach(test => {
+                    const option = document.createElement('option');
+                    option.value = test.id;
+                    option.textContent = test.name;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading test filter:', error);
+            }
+        }
+        
+        async function loadTestDropdown(selectId) {
+            const select = document.getElementById(selectId);
+            select.innerHTML = '<option value="">Select Test</option>';
+            
+            try {
+                const tests = await callAdminScript('getAllTests');
+                tests.forEach(test => {
+                    const option = document.createElement('option');
+                    option.value = test.id;
+                    option.textContent = test.name;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading test dropdown:', error);
+            }
+        }
+        
+        function showQuestionForm(questionId = null) {
+            document.getElementById('questionFormTitle').textContent = questionId ? 'Edit Question' : 'Add New Question';
+            document.getElementById('questionId').value = questionId || '';
+            
+            if (questionId) {
+                // Load question data for editing
+                // This would be populated from an API call in a real implementation
+            } else {
+                // Reset form for new question
+                document.getElementById('questionForm').reset();
+            }
+            
+            document.getElementById('questionFormCard').style.display = 'block';
+        }
+        
+        function hideQuestionForm() {
+            document.getElementById('questionFormCard').style.display = 'none';
+        }
+        
+        async function saveQuestion(e) {
+            e.preventDefault();
+            
+            const questionData = {
+                id: document.getElementById('questionId').value,
+                testId: document.getElementById('questionTest').value,
+                text: document.getElementById('questionText').value,
+                options: [
+                    document.getElementById('option1').value,
+                    document.getElementById('option2').value,
+                    document.getElementById('option3').value,
+                    document.getElementById('option4').value
+                ],
+                correctOption: document.getElementById('correctOption').value,
+                explanation: document.getElementById('questionExplanation').value
+            };
+            
+            try {
+                const response = await callAdminScript(questionData.id ? 'updateQuestion' : 'addQuestion', questionData);
+                if (response.success) {
+                    alert('Question saved successfully');
+                    hideQuestionForm();
+                    await loadQuestions();
+                } else {
+                    alert(response.message || 'Failed to save question');
+                }
+            } catch (error) {
+                console.error('Error saving question:', error);
+                alert('Failed to save question');
+            }
+        }
+        
+        async function editQuestion(questionId) {
+            try {
+                const question = await callAdminScript('getQuestion', { id: questionId });
+                if (question) {
+                    showQuestionForm(questionId);
+                    // Populate form fields with question data
+                    document.getElementById('questionTest').value = question.testId;
+                    document.getElementById('questionText').value = question.text;
+                    document.getElementById('option1').value = question.options[0];
+                    document.getElementById('option2').value = question.options[1];
+                    document.getElementById('option3').value = question.options[2];
+                    document.getElementById('option4').value = question.options[3];
+                    document.getElementById('correctOption').value = question.correctOption;
+                    document.getElementById('questionExplanation').value = question.explanation;
+                }
+            } catch (error) {
+                console.error('Error loading question:', error);
+                alert('Failed to load question data');
+            }
+        }
+        
+        async function deleteQuestion(questionId) {
+            if (confirm('Are you sure you want to delete this question? This cannot be undone.')) {
+                try {
+                    const response = await callAdminScript('deleteQuestion', { id: questionId });
+                    if (response.success) {
+                        alert('Question deleted successfully');
+                        await loadQuestions();
+                    } else {
+                        alert(response.message || 'Failed to delete question');
+                    }
+                } catch (error) {
+                    console.error('Error deleting question:', error);
+                    alert('Failed to delete question');
+                }
+            }
+        }
+        
+        async function filterQuestions() {
+            const testId = document.getElementById('questionTestFilter').value;
+            const questions = await callAdminScript('getAllQuestions');
+            
+            const filteredQuestions = testId 
+                ? questions.filter(q => q.testId === testId) 
+                : questions;
+                
+            renderQuestionsTable(filteredQuestions);
+        }
+        
+        // User management functions
+        async function loadUsers() {
+            const users = await callAdminScript('getAllUsers');
+            renderUsersTable(users);
+        }
+        
+        function renderUsersTable(users) {
+            const tbody = document.querySelector('#usersTable tbody');
+            tbody.innerHTML = '';
+            
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.category}</td>
+                    <td>${formatDate(user.joinDate)}</td>
+                    <td>${user.testsTaken}</td>
+                    <td>
+                        <button class="btn btn-sm btn-admin-outline view-user" data-id="${user.id}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-user').forEach(btn => {
+                btn.addEventListener('click', () => viewUser(btn.dataset.id));
+            });
+        }
+        
+        async function viewUser(userId) {
+            try {
+                const user = await callAdminScript('getUser', { id: userId });
+                if (user) {
+                    // Show user details in a modal or separate view
+                    alert(`User Details:\nName: ${user.name}\nEmail: ${user.email}\nCategory: ${user.category}`);
+                }
+            } catch (error) {
+                console.error('Error loading user:', error);
+                alert('Failed to load user data');
+            }
+        }
+        
+        // Results management functions
+        async function loadResults() {
+            const results = await callAdminScript('getAllResults');
+            renderResultsTable(results);
+        }
+        
+        function renderResultsTable(results) {
+            const tbody = document.querySelector('#resultsTable tbody');
+            tbody.innerHTML = '';
+            
+            results.forEach(result => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${result.userName}</td>
+                    <td>${result.testName}</td>
+                    <td>${result.score}/${result.totalMarks}</td>
+                    <td>${result.correct}</td>
+                    <td>${result.wrong}</td>
+                    <td>${result.percentile}%</td>
+                    <td>${formatDate(result.date)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        async function filterResults() {
+            const testId = document.getElementById('resultsTestFilter').value;
+            const results = await callAdminScript('getAllResults');
+            
+            const filteredResults = testId 
+                ? results.filter(r => r.testId === testId) 
+                : results;
+                
+            renderResultsTable(filteredResults);
+        }
+        
+        // Settings functions
+        async function loadAdminSettings() {
+            try {
+                const settings = await callAdminScript('getAdminSettings');
+                if (settings) {
+                    document.getElementById('adminNameInput').value = settings.name || '';
+                    document.getElementById('adminEmailInput').value = settings.email || '';
+                }
+            } catch (error) {
+                console.error('Error loading admin settings:', error);
+            }
+        }
+        
+        async function saveAdminSettings(e) {
+            e.preventDefault();
+            
+            const settings = {
+                name: document.getElementById('adminNameInput').value,
+                email: document.getElementById('adminEmailInput').value,
+                password: document.getElementById('adminPasswordInput').value,
+                confirmPassword: document.getElementById('adminConfirmPassword').value
+            };
+            
+            try {
+                const response = await callAdminScript('updateAdminSettings', settings);
+                if (response.success) {
+                    alert('Settings saved successfully');
+                    document.getElementById('adminPasswordInput').value = '';
+                    document.getElementById('adminConfirmPassword').value = '';
+                } else {
+                    alert(response.message || 'Failed to save settings');
+                }
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                alert('Failed to save settings');
+            }
+        }
+        
+        // Utility functions
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString();
+        }
+        
+        function formatDateTimeForInput(dateString) {
+            const date = new Date(dateString);
+            return date.toISOString().slice(0, 16);
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString();
+        }
+        
+        function truncateText(text, maxLength) {
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+    </script>
+</body>
+</html>
