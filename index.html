@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yugal Mocker - All India Mock Test Series</title>
+    <meta name="description" content="Practice with the best mock tests for SSC, GATE, JEE, NEET and more. Get real-time analysis and improve your performance.">
+    <meta name="keywords" content="mock test, online test series, SSC, GATE, JEE, NEET, competitive exams, exam preparation">
+    <meta name="author" content="Yugal Mocker">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yugalmocker.com/">
+    <meta property="og:title" content="Yugal Mocker - All India Mock Test Series">
+    <meta property="og:description" content="Practice with the best mock tests for SSC, GATE, JEE, NEET and more. Get real-time analysis and improve your performance.">
+    <meta property="og:image" content="https://yugalmocker.com/images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yugalmocker.com/">
+    <meta property="twitter:title" content="Yugal Mocker - All India Mock Test Series">
+    <meta property="twitter:description" content="Practice with the best mock tests for SSC, GATE, JEE, NEET and more. Get real-time analysis and improve your performance.">
+    <meta property="twitter:image" content="https://yugalmocker.com/images/og-image.jpg">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -171,6 +189,33 @@
                 min-height: auto;
             }
         }
+        
+        /* SEO Content Modal */
+        .seo-modal .modal-content {
+            border-radius: 10px;
+        }
+        
+        .seo-modal .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .seo-content {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .seo-content h2 {
+            color: var(--primary-color);
+            margin-top: 20px;
+        }
+        
+        .seo-content h3 {
+            color: var(--dark-color);
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -190,10 +235,13 @@
                         <a class="nav-link text-dark" href="#test-series">Test Series</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="#about">About</a>
+                        <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="#contact">Contact</a>
+                        <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#faqModal">FAQ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-primary text-white ms-2" href="#" id="loginBtn">Login</a>
@@ -224,99 +272,16 @@
         <div class="container my-5">
             <section id="upcoming-tests" class="mb-5">
                 <h2 class="mb-4">Upcoming All India Tests</h2>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="test-card">
-                            <div class="test-card-header">
-                                <h5 class="mb-0">SSC CGL Tier-I</h5>
-                            </div>
-                            <div class="test-card-body">
-                                <p><i class="far fa-calendar-alt me-2"></i> Next Sunday, 10:00 AM</p>
-                                <p><i class="fas fa-users me-2"></i> 5,000+ registered</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="badge bg-success">Free</span>
-                                    <a href="#" class="btn btn-sm btn-primary start-test-btn" data-test-id="ssc1">Register Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="test-card">
-                            <div class="test-card-header bg-success">
-                                <h5 class="mb-0">NEET 2024</h5>
-                            </div>
-                            <div class="test-card-body">
-                                <p><i class="far fa-calendar-alt me-2"></i> Next Sunday, 2:00 PM</p>
-                                <p><i class="fas fa-users me-2"></i> 3,200+ registered</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="badge bg-warning text-dark">Premium</span>
-                                    <a href="#" class="btn btn-sm btn-success start-test-btn" data-test-id="neet1">Register Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="test-card">
-                            <div class="test-card-header bg-warning">
-                                <h5 class="mb-0">GATE 2025</h5>
-                            </div>
-                            <div class="test-card-body">
-                                <p><i class="far fa-calendar-alt me-2"></i> Next Sunday, 4:00 PM</p>
-                                <p><i class="fas fa-users me-2"></i> 2,800+ registered</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="badge bg-success">Free</span>
-                                    <a href="#" class="btn btn-sm btn-primary start-test-btn" data-test-id="gate1">Register Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" id="upcomingTestsContainer">
+                    <!-- Tests will be loaded dynamically -->
                 </div>
             </section>
 
             <!-- Test Categories -->
             <section id="test-series" class="mb-5">
                 <h2 class="mb-4">Test Series Categories</h2>
-                <div class="row">
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-graduation-cap fa-3x mb-3 text-primary"></i>
-                                <h5 class="card-title">SSC Exams</h5>
-                                <p class="card-text">CGL, CHSL, MTS, GD, Steno and more</p>
-                                <a href="#" class="btn btn-outline-primary">View Tests</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-flask fa-3x mb-3 text-success"></i>
-                                <h5 class="card-title">Engineering</h5>
-                                <p class="card-text">GATE, JEE Main, JEE Advanced, BITSAT</p>
-                                <a href="#" class="btn btn-outline-success">View Tests</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-medkit fa-3x mb-3 text-danger"></i>
-                                <h5 class="card-title">Medical</h5>
-                                <p class="card-text">NEET, AIIMS, JIPMER, PGIMER</p>
-                                <a href="#" class="btn btn-outline-danger">View Tests</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-landmark fa-3x mb-3 text-warning"></i>
-                                <h5 class="card-title">Civil Services</h5>
-                                <p class="card-text">UPSC Prelims, Mains, State PSCs</p>
-                                <a href="#" class="btn btn-outline-warning">View Tests</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" id="testSeriesContainer">
+                    <!-- Test series will be loaded dynamically -->
                 </div>
             </section>
 
@@ -378,7 +343,7 @@
                         <h5 class="text-center mb-4">Test Navigator</h5>
                         <div class="d-flex justify-content-between mb-3">
                             <span class="text-muted">Questions</span>
-                            <span id="answeredCount">0</span>/<span id="totalQuestions">30</span>
+                            <span id="answeredCount">0</span>/<span id="totalQuestions">0</span>
                         </div>
                         <div class="question-palette mb-4">
                             <div class="row g-2" id="questionPalette">
@@ -386,7 +351,7 @@
                             </div>
                         </div>
                         <div class="timer-container text-center mb-4">
-                            <div class="timer" id="testTimer">30:00</div>
+                            <div class="timer" id="testTimer">00:00</div>
                         </div>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" id="submitTestBtn">Submit Test</button>
@@ -399,7 +364,7 @@
                 <div class="col-md-10 p-4">
                     <div class="test-interface-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h4 id="testTitle">Quantitative Aptitude</h4>
+                            <h4 id="testTitle">Test Title</h4>
                             <div class="d-flex gap-3">
                                 <button class="btn btn-sm btn-outline-primary" id="markForReviewBtn">Mark & Save For Review</button>
                                 <button class="btn btn-sm btn-primary" id="clearResponseBtn">Clear Response</button>
@@ -411,26 +376,11 @@
                     <div class="question-container">
                         <div class="question-text mb-4">
                             <h5>Question <span id="currentQuestionNumber">1</span></h5>
-                            <p id="questionText">A shopkeeper gives a 10% discount and still earns 10% profit. The marked price of the item is how many times (correct to 2 decimal places) the cost price?</p>
+                            <p id="questionText">Loading question...</p>
                         </div>
                         
                         <div class="options-container" id="optionsContainer">
-                            <div class="option-item" data-option="1">
-                                <input type="radio" name="questionOption" id="option1" class="me-2">
-                                <label for="option1">1.28</label>
-                            </div>
-                            <div class="option-item" data-option="2">
-                                <input type="radio" name="questionOption" id="option2" class="me-2">
-                                <label for="option2">1.24</label>
-                            </div>
-                            <div class="option-item" data-option="3">
-                                <input type="radio" name="questionOption" id="option3" class="me-2">
-                                <label for="option3">1.22</label>
-                            </div>
-                            <div class="option-item" data-option="4">
-                                <input type="radio" name="questionOption" id="option4" class="me-2">
-                                <label for="option4">1.20</label>
-                            </div>
+                            <!-- Options will be loaded dynamically -->
                         </div>
                     </div>
                 </div>
@@ -481,45 +431,8 @@
                     <h3 class="mb-4">Dashboard</h3>
                     
                     <!-- Stats Cards -->
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="card dashboard-card">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-2 text-muted">Tests Attempted</h6>
-                                    <h3 class="card-title">12</h3>
-                                    <p class="card-text text-success"><small>+2 this week</small></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card dashboard-card">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-2 text-muted">All India Rank</h6>
-                                    <h3 class="card-title">#1,245</h3>
-                                    <p class="card-text text-success"><small>Improved by 324</small></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card dashboard-card">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-2 text-muted">Accuracy</h6>
-                                    <h3 class="card-title">78%</h3>
-                                    <div class="progress mt-2">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 78%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card dashboard-card">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-2 text-muted">Next Test</h6>
-                                    <h5 class="card-title">SSC CGL Tier-I</h5>
-                                    <p class="card-text"><small>Sunday, 10:00 AM</small></p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row mb-4" id="dashboardStats">
+                        <!-- Stats will be loaded dynamically -->
                     </div>
                     
                     <!-- Recent Tests -->
@@ -529,7 +442,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="recentTestsTable">
                                     <thead>
                                         <tr>
                                             <th>Test Name</th>
@@ -541,30 +454,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>SSC CGL Tier-I Mock 15</td>
-                                            <td>Apr 24, 2024</td>
-                                            <td>145/200</td>
-                                            <td>#1,245</td>
-                                            <td>82%</td>
-                                            <td><a href="#" class="btn btn-sm btn-outline-primary view-analysis-btn" data-test-id="test1">View Analysis</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>SSC CHSL Mock 8</td>
-                                            <td>Apr 17, 2024</td>
-                                            <td>120/200</td>
-                                            <td>#2,156</td>
-                                            <td>75%</td>
-                                            <td><a href="#" class="btn btn-sm btn-outline-primary view-analysis-btn" data-test-id="test2">View Analysis</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>All India SSC GK Test</td>
-                                            <td>Apr 10, 2024</td>
-                                            <td>85/100</td>
-                                            <td>#856</td>
-                                            <td>85%</td>
-                                            <td><a href="#" class="btn btn-sm btn-outline-primary view-analysis-btn" data-test-id="test3">View Analysis</a></td>
-                                        </tr>
+                                        <!-- Recent tests will be loaded dynamically -->
                                     </tbody>
                                 </table>
                             </div>
@@ -596,10 +486,8 @@
                     </div>
                     
                     <!-- Motivation and Feedback -->
-                    <div class="motivation-card">
-                        <h5><i class="fas fa-lightbulb me-2 text-warning"></i> Improvement Tip</h5>
-                        <p>Your performance in Quantitative Aptitude is strong (85% accuracy), but you need to focus more on General Awareness (62% accuracy). Try spending 30 minutes daily on current affairs to improve.</p>
-                        <p class="mb-0"><strong>Motivation:</strong> "Success is the sum of small efforts, repeated day in and day out." - Robert Collier</p>
+                    <div class="motivation-card" id="improvementTip">
+                        <!-- Improvement tip will be loaded dynamically -->
                     </div>
                 </div>
             </div>
@@ -645,12 +533,12 @@
                 <div class="col-md-10 p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>
-                            <h3>SSC CGL Tier-I Mock Test 15 - Analysis</h3>
-                            <p class="text-muted mb-0">Attempted on Apr 24, 2024 | Duration: 1 Hour</p>
+                            <h3 id="analysisTestTitle">Test Title - Analysis</h3>
+                            <p class="text-muted mb-0" id="analysisTestDetails">Attempted on ... | Duration: ...</p>
                         </div>
                         <div class="text-end">
-                            <h4 class="text-success">145/200</h4>
-                            <p class="text-muted mb-0">All India Rank: #1,245</p>
+                            <h4 class="text-success" id="analysisTestScore">0/0</h4>
+                            <p class="text-muted mb-0" id="analysisTestRank">All India Rank: #0</p>
                         </div>
                     </div>
                     
@@ -660,40 +548,8 @@
                             <h5 class="mb-0">Test Summary</h5>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="analysis-card">
-                                        <div class="analysis-card-header bg-primary text-white">
-                                            Attempted Questions
-                                        </div>
-                                        <div class="analysis-card-body p-3 text-center">
-                                            <h2>65</h2>
-                                            <p>out of 100</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="analysis-card">
-                                        <div class="analysis-card-header bg-success text-white">
-                                            Correct Answers
-                                        </div>
-                                        <div class="analysis-card-body p-3 text-center">
-                                            <h2>53</h2>
-                                            <p>Accuracy: 81.5%</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="analysis-card">
-                                        <div class="analysis-card-header bg-danger text-white">
-                                            Wrong Answers
-                                        </div>
-                                        <div class="analysis-card-body p-3 text-center">
-                                            <h2>12</h2>
-                                            <p>Negative Marks: -4</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="row" id="testSummaryCards">
+                                <!-- Summary cards will be loaded dynamically -->
                             </div>
                         </div>
                     </div>
@@ -705,7 +561,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="sectionalAnalysisTable">
                                     <thead>
                                         <tr>
                                             <th>Section</th>
@@ -719,46 +575,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Quantitative Aptitude</td>
-                                            <td>25</td>
-                                            <td>20</td>
-                                            <td>18</td>
-                                            <td>2</td>
-                                            <td>70/75</td>
-                                            <td>90%</td>
-                                            <td>95.4</td>
-                                        </tr>
-                                        <tr>
-                                            <td>General Intelligence</td>
-                                            <td>25</td>
-                                            <td>22</td>
-                                            <td>17</td>
-                                            <td>5</td>
-                                            <td>49/75</td>
-                                            <td>77.3%</td>
-                                            <td>82.1</td>
-                                        </tr>
-                                        <tr>
-                                            <td>English Language</td>
-                                            <td>25</td>
-                                            <td>15</td>
-                                            <td>12</td>
-                                            <td>3</td>
-                                            <td>33/75</td>
-                                            <td>80%</td>
-                                            <td>78.5</td>
-                                        </tr>
-                                        <tr>
-                                            <td>General Awareness</td>
-                                            <td>25</td>
-                                            <td>8</td>
-                                            <td>6</td>
-                                            <td>2</td>
-                                            <td>16/75</td>
-                                            <td>75%</td>
-                                            <td>65.2</td>
-                                        </tr>
+                                        <!-- Sectional analysis will be loaded dynamically -->
                                     </tbody>
                                 </table>
                             </div>
@@ -770,63 +587,8 @@
                         <div class="card-header bg-white">
                             <h5 class="mb-0">Question Analysis</h5>
                         </div>
-                        <div class="card-body">
-                            <div class="question-container">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5>Question 1</h5>
-                                    <span class="badge bg-success">Correct</span>
-                                </div>
-                                <div class="question-text mb-4">
-                                    <p>A shopkeeper gives a 10% discount and still earns 10% profit. The marked price of the item is how many times (correct to 2 decimal places) the cost price?</p>
-                                </div>
-                                
-                                <div class="options-container mb-4">
-                                    <div class="option-item">
-                                        <input type="radio" name="analysisOption" id="analysisOption1" class="me-2" disabled>
-                                        <label for="analysisOption1">1.28</label>
-                                    </div>
-                                    <div class="option-item">
-                                        <input type="radio" name="analysisOption" id="analysisOption2" class="me-2" disabled>
-                                        <label for="analysisOption2">1.24</label>
-                                    </div>
-                                    <div class="option-item correct">
-                                        <input type="radio" name="analysisOption" id="analysisOption3" class="me-2" checked disabled>
-                                        <label for="analysisOption3">1.22</label>
-                                    </div>
-                                    <div class="option-item">
-                                        <input type="radio" name="analysisOption" id="analysisOption4" class="me-2" disabled>
-                                        <label for="analysisOption4">1.20</label>
-                                    </div>
-                                </div>
-                                
-                                <div class="solution-container">
-                                    <h6>Solution:</h6>
-                                    <p>Let the cost price (CP) be ₹100.</p>
-                                    <p>With 10% profit, selling price (SP) = ₹110</p>
-                                    <p>This SP is after 10% discount on marked price (MP).</p>
-                                    <p>So, 90% of MP = ₹110 → MP = ₹110 × (100/90) = ₹122.22</p>
-                                    <p>Therefore, MP/CP = 122.22/100 = 1.22</p>
-                                    <p class="text-success"><strong>Correct Answer: 1.22</strong></p>
-                                </div>
-                                
-                                <div class="statistics mt-4">
-                                    <h6>Statistics:</h6>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <p><strong>Attempted:</strong> 89%</p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p><strong>Correct:</strong> 45%</p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p><strong>Difficulty:</strong> Medium</p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p><strong>Time Taken:</strong> 45s (Avg: 62s)</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="card-body" id="questionAnalysisContainer">
+                            <!-- Question analysis will be loaded dynamically -->
                         </div>
                     </div>
                     
@@ -838,9 +600,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h6>Percentile: 92.5</h6>
+                                    <h6 id="percentileText">Percentile: 0</h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 92.5%"></div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
                                     </div>
                                     
                                     <h6>Score Distribution</h6>
@@ -849,7 +611,7 @@
                                 <div class="col-md-6">
                                     <h6>Top Performers</h6>
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table" id="topPerformersTable">
                                             <thead>
                                                 <tr>
                                                     <th>Rank</th>
@@ -859,36 +621,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Rahul Sharma</td>
-                                                    <td>195/200</td>
-                                                    <td>97.5%</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Priya Patel</td>
-                                                    <td>188/200</td>
-                                                    <td>94%</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Amit Singh</td>
-                                                    <td>182/200</td>
-                                                    <td>91%</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>...</td>
-                                                    <td>...</td>
-                                                    <td>...</td>
-                                                    <td>...</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1,245</td>
-                                                    <td>You</td>
-                                                    <td>145/200</td>
-                                                    <td>81.5%</td>
-                                                </tr>
+                                                <!-- Top performers will be loaded dynamically -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -912,10 +645,10 @@
                 <div class="col-md-2 mb-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Home</a></li>
-                        <li><a href="#" class="text-white">Test Series</a></li>
-                        <li><a href="#" class="text-white">About Us</a></li>
-                        <li><a href="#" class="text-white">Contact</a></li>
+                        <li><a href="#home" class="text-white">Home</a></li>
+                        <li><a href="#test-series" class="text-white">Test Series</a></li>
+                        <li><a href="#" class="text-white" data-bs-toggle="modal" data-bs-target="#aboutModal">About Us</a></li>
+                        <li><a href="#" class="text-white" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 mb-4">
@@ -977,7 +710,7 @@
                     </form>
                     <div class="text-center mt-3">
                         <p>Don't have an account? <a href="#" id="showSignupFromLogin">Sign up</a></p>
-                        <p><a href="#">Forgot password?</a></p>
+                        <p><a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password?</a></p>
                     </div>
                 </div>
             </div>
@@ -1026,7 +759,7 @@
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="agreeTerms" required>
-                            <label class="form-check-label" for="agreeTerms">I agree to the <a href="#">Terms and Conditions</a></label>
+                            <label class="form-check-label" for="agreeTerms">I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a></label>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Create Account</button>
                     </form>
@@ -1038,47 +771,407 @@
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Forgot Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm">
+                        <div class="mb-3">
+                            <label for="forgotEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="forgotEmail" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Remember your password? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Modal -->
+    <div class="modal fade seo-modal" id="aboutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">About Yugal Mocker</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body seo-content">
+                    <h2>Our Mission</h2>
+                    <p>At Yugal Mocker, we are committed to providing high-quality mock tests that simulate real exam environments for various competitive exams in India. Our mission is to help students prepare effectively by offering comprehensive test series with detailed analysis and All India ranking.</p>
+                    
+                    <h2>Who We Are</h2>
+                    <p>Founded in 2024, Yugal Mocker is a team of educators, technologists, and exam experts who understand the challenges faced by competitive exam aspirants. We combine educational expertise with cutting-edge technology to create an unparalleled test preparation platform.</p>
+                    
+                    <h2>What We Offer</h2>
+                    <ul>
+                        <li>All India Mock Test Series for SSC, GATE, JEE, NEET, UPSC and more</li>
+                        <li>Real-time performance analysis with detailed solutions</li>
+                        <li>Section-wise breakdown of strengths and weaknesses</li>
+                        <li>Comparison with toppers and average performers</li>
+                        <li>Personalized improvement recommendations</li>
+                    </ul>
+                    
+                    <h2>Our Approach</h2>
+                    <p>We believe that practice with proper analysis is the key to success in competitive exams. Our tests are designed by subject matter experts to match the latest exam patterns and difficulty levels. After each test, you receive detailed insights to help you improve.</p>
+                    
+                    <h2>Why Choose Us</h2>
+                    <p>Unlike other test platforms, Yugal Mocker provides:</p>
+                    <ul>
+                        <li>Real All India ranking (not just percentile)</li>
+                        <li>Detailed question-level analysis</li>
+                        <li>Performance tracking over time</li>
+                        <li>Personalized feedback based on your performance</li>
+                        <li>Affordable pricing with free test options</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Us Modal -->
+    <div class="modal fade seo-modal" id="contactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact Us</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body seo-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2>Get in Touch</h2>
+                            <p>Have questions or feedback? We'd love to hear from you!</p>
+                            
+                            <h3>Contact Information</h3>
+                            <p><i class="fas fa-map-marker-alt me-2"></i> <strong>Address:</strong> 123 Education Street, New Delhi, India - 110001</p>
+                            <p><i class="fas fa-phone me-2"></i> <strong>Phone:</strong> +91 9876543210</p>
+                            <p><i class="fas fa-envelope me-2"></i> <strong>Email:</strong> support@yugalmocker.com</p>
+                            
+                            <h3>Business Hours</h3>
+                            <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                            <p>Saturday: 10:00 AM - 4:00 PM</p>
+                            <p>Sunday: Closed</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h3>Send Us a Message</h3>
+                            <form id="contactForm">
+                                <div class="mb-3">
+                                    <label for="contactName" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="contactName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactEmail" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="contactEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactSubject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="contactSubject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactMessage" class="form-label">Message</label>
+                                    <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Modal -->
+    <div class="modal fade seo-modal" id="faqModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Frequently Asked Questions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body seo-content">
+                    <h2>General Questions</h2>
+                    
+                    <div class="accordion mb-4" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    What is Yugal Mocker?
+                                </button>
+                            </h3>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yugal Mocker is an online platform that provides All India Mock Test Series for various competitive exams like SSC, GATE, JEE, NEET, UPSC and more. We offer realistic test experiences with detailed performance analysis.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    How does the All India Ranking work?
+                                </button>
+                            </h3>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Your rank is calculated based on your performance compared to all other students who have taken the same test. We provide both your numerical rank (e.g., #1245) and percentile to help you understand where you stand nationally.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    Are the tests free?
+                                </button>
+                            </h3>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We offer both free and premium tests. Free tests give you access to basic features, while premium tests include advanced analytics, detailed solutions, and more comprehensive performance reports.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                    How often are new tests added?
+                                </button>
+                            </h3>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We add new tests weekly for most exam categories. Our test series are designed to cover the entire syllabus with multiple difficulty levels to help you prepare comprehensively.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                    Can I take tests on mobile?
+                                </button>
+                            </h3>
+                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes! Yugal Mocker is fully responsive and works on mobile devices, tablets, and desktops. However, for the best experience, we recommend using a device with a larger screen for tests with complex questions.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>Technical Questions</h2>
+                    
+                    <div class="accordion mb-4" id="techFaqAccordion">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingSix">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix">
+                                    What happens if I lose internet connection during a test?
+                                </button>
+                            </h3>
+                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#techFaqAccordion">
+                                <div class="accordion-body">
+                                    Your progress is saved automatically as you take the test. If you lose connection, simply reconnect and you can continue from where you left off. The timer will continue running during the disconnection.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingSeven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven">
+                                    How do I reset my password?
+                                </button>
+                            </h3>
+                            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#techFaqAccordion">
+                                <div class="accordion-body">
+                                    Click on the "Forgot password?" link on the login page. You'll receive an email with instructions to reset your password. If you don't see the email, please check your spam folder.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingEight">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight">
+                                    Can I change my primary exam category after signing up?
+                                </button>
+                            </h3>
+                            <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#techFaqAccordion">
+                                <div class="accordion-body">
+                                    Yes, you can change your primary exam category at any time from your profile settings. This helps us recommend the most relevant tests for you.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>Payment & Subscription</h2>
+                    
+                    <div class="accordion" id="paymentFaqAccordion">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingNine">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine">
+                                    What payment methods do you accept?
+                                </button>
+                            </h3>
+                            <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#paymentFaqAccordion">
+                                <div class="accordion-body">
+                                    We accept all major credit/debit cards, net banking, UPI, and popular digital wallets like Paytm, PhonePe, and Google Pay.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingTen">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen">
+                                    Can I get a refund for a purchased test series?
+                                </button>
+                            </h3>
+                            <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#paymentFaqAccordion">
+                                <div class="accordion-body">
+                                    We offer refunds within 7 days of purchase if you haven't attempted any tests from the series. Please contact our support team with your request.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingEleven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven">
+                                    Do you offer discounts for students?
+                                </button>
+                            </h3>
+                            <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#paymentFaqAccordion">
+                                <div class="accordion-body">
+                                    Yes, we periodically offer student discounts. Please check our special offers page or contact us with your student ID for more information.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade seo-modal" id="termsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Terms and Conditions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body seo-content">
+                    <h2>1. Acceptance of Terms</h2>
+                    <p>By accessing or using the Yugal Mocker website and services, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not use our services.</p>
+                    
+                    <h2>2. User Accounts</h2>
+                    <p>You must create an account to access certain features of our service. You are responsible for maintaining the confidentiality of your account information and password, and for all activities that occur under your account.</p>
+                    
+                    <h2>3. Service Description</h2>
+                    <p>Yugal Mocker provides online mock test series and related educational services. We reserve the right to modify or discontinue any service at any time without notice.</p>
+                    
+                    <h2>4. Payment and Refunds</h2>
+                    <p>Payment for premium services is required in advance. Refunds are available within 7 days of purchase if no tests have been attempted from the purchased series.</p>
+                    
+                    <h2>5. User Conduct</h2>
+                    <p>You agree not to:</p>
+                    <ul>
+                        <li>Use the service for any unlawful purpose</li>
+                        <li>Attempt to gain unauthorized access to any part of the service</li>
+                        <li>Share your account credentials with others</li>
+                        <li>Copy, reproduce, or distribute any content without permission</li>
+                    </ul>
+                    
+                    <h2>6. Intellectual Property</h2>
+                    <p>All content, including tests, questions, and solutions, are the property of Yugal Mocker and are protected by copyright laws. Unauthorized use is strictly prohibited.</p>
+                    
+                    <h2>7. Privacy Policy</h2>
+                    <p>Your use of our services is also governed by our Privacy Policy, which explains how we collect, use, and protect your personal information.</p>
+                    
+                    <h2>8. Limitation of Liability</h2>
+                    <p>Yugal Mocker shall not be liable for any indirect, incidental, special, or consequential damages resulting from the use or inability to use our services.</p>
+                    
+                    <h2>9. Changes to Terms</h2>
+                    <p>We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of the new terms.</p>
+                    
+                    <h2>10. Governing Law</h2>
+                    <p>These terms shall be governed by and construed in accordance with the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts in New Delhi.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade seo-modal" id="privacyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body seo-content">
+                    <h2>1. Information We Collect</h2>
+                    <p>We collect information you provide when creating an account, including name, email, and exam preferences. We also collect test performance data and usage patterns.</p>
+                    
+                    <h2>2. How We Use Your Information</h2>
+                    <p>Your information is used to:</p>
+                    <ul>
+                        <li>Provide and improve our services</li>
+                        <li>Personalize your experience</li>
+                        <li>Generate performance reports</li>
+                        <li>Communicate with you about your account</li>
+                        <li>Send educational content and offers (you can opt out)</li>
+                    </ul>
+                    
+                    <h2>3. Data Security</h2>
+                    <p>We implement appropriate security measures to protect your personal information. However, no internet transmission is completely secure, and we cannot guarantee absolute security.</p>
+                    
+                    <h2>4. Information Sharing</h2>
+                    <p>We do not sell your personal information. We may share aggregated, anonymized performance data for research or marketing purposes.</p>
+                    
+                    <h2>5. Cookies and Tracking</h2>
+                    <p>We use cookies to enhance your experience and analyze usage patterns. You can disable cookies in your browser settings, but this may affect functionality.</p>
+                    
+                    <h2>6. Children's Privacy</h2>
+                    <p>Our services are not intended for children under 13. We do not knowingly collect information from children under 13.</p>
+                    
+                    <h2>7. Your Rights</h2>
+                    <p>You can access, update, or delete your personal information through your account settings. You may also request a copy of your data.</p>
+                    
+                    <h2>8. Changes to This Policy</h2>
+                    <p>We may update this policy periodically. Continued use of our services after changes constitutes acceptance of the updated policy.</p>
+                    
+                    <h2>9. Contact Us</h2>
+                    <p>For questions about this policy, please contact us at privacy@yugalmocker.com.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Demo questions data
-        const demoQuestions = [
-            {
-                id: 1,
-                text: "A shopkeeper gives a 10% discount and still earns 10% profit. The marked price of the item is how many times (correct to 2 decimal places) the cost price?",
-                options: ["1.28", "1.24", "1.22", "1.20"],
-                correctAnswer: 2, // Index of correct answer (0-based)
-                solution: "Let the cost price (CP) be ₹100. With 10% profit, selling price (SP) = ₹110. This SP is after 10% discount on marked price (MP). So, 90% of MP = ₹110 → MP = ₹110 × (100/90) = ₹122.22. Therefore, MP/CP = 122.22/100 = 1.22",
-                difficulty: "Medium",
-                attempted: 89,
-                correct: 45,
-                avgTime: 62
-            },
-            {
-                id: 2,
-                text: "If the ratio of the ages of A and B is 3:5 and the sum of their ages is 80 years, what is the age of B?",
-                options: ["30 years", "40 years", "50 years", "60 years"],
-                correctAnswer: 2,
-                solution: "Let the ages of A and B be 3x and 5x respectively. According to the problem, 3x + 5x = 80 → 8x = 80 → x = 10. Therefore, age of B = 5x = 5 × 10 = 50 years.",
-                difficulty: "Easy",
-                attempted: 95,
-                correct: 78,
-                avgTime: 45
-            },
-            {
-                id: 3,
-                text: "A train 150 meters long is running at a speed of 90 km/h. How long will it take to pass a 200-meter-long platform?",
-                options: ["10 seconds", "12 seconds", "14 seconds", "16 seconds"],
-                correctAnswer: 2,
-                solution: "Total distance to cover = length of train + length of platform = 150 + 200 = 350 meters. Speed = 90 km/h = 90 × (5/18) = 25 m/s. Time = Distance/Speed = 350/25 = 14 seconds.",
-                difficulty: "Medium",
-                attempted: 82,
-                correct: 55,
-                avgTime: 75
-            }
-        ];
-
-        // Current test state
+        // Global variables
+        let currentUser = null;
         let currentTest = {
             id: null,
             questions: [],
@@ -1086,162 +1179,519 @@
             responses: {},
             markedForReview: [],
             startTime: null,
-            timerInterval: null
+            timerInterval: null,
+            timeLeft: 0
         };
-
-        // Login/Signup Modal Toggle
-        document.getElementById('loginBtn').addEventListener('click', function() {
-            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            loginModal.show();
-        });
         
-        document.getElementById('signupBtn').addEventListener('click', function() {
-            var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
-            signupModal.show();
-        });
-        
-        document.getElementById('heroSignupBtn').addEventListener('click', function() {
-            var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
-            signupModal.show();
-        });
-        
-        document.getElementById('showSignupFromLogin').addEventListener('click', function(e) {
-            e.preventDefault();
-            var loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-            loginModal.hide();
-            var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
-            signupModal.show();
-        });
-        
-        document.getElementById('showLoginFromSignup').addEventListener('click', function(e) {
-            e.preventDefault();
-            var signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
-            signupModal.hide();
-            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            loginModal.show();
-        });
-        
-        // Form Submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Simulate login
-            showDashboard();
-            var loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-            loginModal.hide();
-        });
-        
-        document.getElementById('signupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Simulate signup
-            var signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
-            signupModal.hide();
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in (for demo purposes)
+            checkLoginStatus();
             
-            // Show success message
-            alert('Account created successfully! Please login to continue.');
-            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            loginModal.show();
-        });
-        
-        // Test Interface
-        document.querySelectorAll('.option-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const options = document.querySelectorAll('.option-item');
-                options.forEach(opt => opt.classList.remove('selected'));
-                this.classList.add('selected');
-                const radio = this.querySelector('input[type="radio"]');
-                radio.checked = true;
-                
-                // Save response
-                const questionNumber = currentTest.currentQuestionIndex + 1;
-                const selectedOption = parseInt(this.getAttribute('data-option'));
-                currentTest.responses[questionNumber] = selectedOption;
-                
-                // Update answered count
-                updateAnsweredCount();
-            });
-        });
-        
-        // Start test buttons
-        document.querySelectorAll('.start-test-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const testId = this.getAttribute('data-test-id');
-                startTest(testId);
-            });
-        });
-        
-        // View analysis buttons
-        document.querySelectorAll('.view-analysis-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                showTestAnalysis();
-            });
-        });
-        
-        // Navigation buttons
-        document.getElementById('saveNextBtn').addEventListener('click', function() {
-            navigateQuestion(1);
-        });
-        
-        document.getElementById('markForReviewBtn').addEventListener('click', function() {
-            const questionNumber = currentTest.currentQuestionIndex + 1;
-            if (currentTest.markedForReview.includes(questionNumber)) {
-                currentTest.markedForReview = currentTest.markedForReview.filter(q => q !== questionNumber);
-                this.classList.remove('btn-warning');
-                this.classList.add('btn-outline-primary');
-                this.textContent = 'Mark & Save For Review';
-            } else {
-                currentTest.markedForReview.push(questionNumber);
-                this.classList.remove('btn-outline-primary');
-                this.classList.add('btn-warning');
-                this.textContent = 'Marked For Review';
-            }
+            // Load upcoming tests
+            loadUpcomingTests();
             
-            // Update question palette
-            updateQuestionPalette();
-        });
-        
-        document.getElementById('clearResponseBtn').addEventListener('click', function() {
-            const questionNumber = currentTest.currentQuestionIndex + 1;
-            delete currentTest.responses[questionNumber];
+            // Load test series
+            loadTestSeries();
             
-            // Clear selection
-            document.querySelectorAll('.option-item').forEach(item => {
-                item.classList.remove('selected');
-                const radio = item.querySelector('input[type="radio"]');
-                radio.checked = false;
-            });
-            
-            // Update counts
-            updateAnsweredCount();
-            updateQuestionPalette();
+            // Set up event listeners
+            setupEventListeners();
         });
         
-        document.getElementById('submitTestBtn').addEventListener('click', function() {
-            if (confirm('Are you sure you want to submit the test?')) {
-                submitTest();
-            }
-        });
-        
-        document.getElementById('quitTestBtn').addEventListener('click', function() {
-            if (confirm('Are you sure you want to quit the test? Your progress will be lost.')) {
+        // Check login status
+        function checkLoginStatus() {
+            // For demo, we'll just check if there's a user in sessionStorage
+            const userData = sessionStorage.getItem('currentUser');
+            if (userData) {
+                currentUser = JSON.parse(userData);
                 showDashboard();
             }
-        });
+        }
         
-        // Dashboard navigation
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            if (confirm('Are you sure you want to logout?')) {
-                document.getElementById('dashboardInterface').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                document.getElementById('mainFooter').style.display = 'block';
+        // Load upcoming tests from server
+        function loadUpcomingTests() {
+            // In a real app, this would be an API call
+            // For demo, we'll use mock data
+            const mockTests = [
+                {
+                    id: "ssc1",
+                    title: "SSC CGL Tier-I",
+                    description: "Full-length mock test for SSC CGL Tier-I exam",
+                    category: "SSC",
+                    duration: 60,
+                    totalQuestions: 100,
+                    isPremium: false,
+                    scheduledAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+                    registeredUsers: 5000
+                },
+                {
+                    id: "neet1",
+                    title: "NEET 2024",
+                    description: "Comprehensive mock test for NEET 2024",
+                    category: "Medical",
+                    duration: 180,
+                    totalQuestions: 180,
+                    isPremium: true,
+                    scheduledAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 + 4 * 60 * 60 * 1000).toISOString(),
+                    registeredUsers: 3200
+                },
+                {
+                    id: "gate1",
+                    title: "GATE 2025",
+                    description: "Mock test for GATE 2025 (Computer Science)",
+                    category: "Engineering",
+                    duration: 180,
+                    totalQuestions: 65,
+                    isPremium: false,
+                    scheduledAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 + 6 * 60 * 60 * 1000).toISOString(),
+                    registeredUsers: 2800
+                }
+            ];
+            
+            const container = document.getElementById('upcomingTestsContainer');
+            container.innerHTML = '';
+            
+            mockTests.forEach(test => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4';
+                
+                const testDate = new Date(test.scheduledAt);
+                const formattedDate = testDate.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    month: 'short', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                col.innerHTML = `
+                    <div class="test-card">
+                        <div class="test-card-header ${test.isPremium ? 'bg-success' : ''}">
+                            <h5 class="mb-0">${test.title}</h5>
+                        </div>
+                        <div class="test-card-body">
+                            <p><i class="far fa-calendar-alt me-2"></i> ${formattedDate}</p>
+                            <p><i class="fas fa-users me-2"></i> ${test.registeredUsers.toLocaleString()}+ registered</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge ${test.isPremium ? 'bg-warning text-dark' : 'bg-success'}">${test.isPremium ? 'Premium' : 'Free'}</span>
+                                <a href="#" class="btn btn-sm ${test.isPremium ? 'btn-success' : 'btn-primary'} start-test-btn" data-test-id="${test.id}">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(col);
+            });
+        }
+        
+        // Load test series from server
+        function loadTestSeries() {
+            // In a real app, this would be an API call
+            // For demo, we'll use mock data
+            const mockSeries = [
+                {
+                    id: "ssc-series",
+                    name: "SSC Exams",
+                    description: "CGL, CHSL, MTS, GD, Steno and more",
+                    category: "SSC",
+                    totalTests: 25,
+                    isFree: true
+                },
+                {
+                    id: "engineering-series",
+                    name: "Engineering",
+                    description: "GATE, JEE Main, JEE Advanced, BITSAT",
+                    category: "Engineering",
+                    totalTests: 18,
+                    isFree: false
+                },
+                {
+                    id: "medical-series",
+                    name: "Medical",
+                    description: "NEET, AIIMS, JIPMER, PGIMER",
+                    category: "Medical",
+                    totalTests: 15,
+                    isFree: false
+                },
+                {
+                    id: "civil-series",
+                    name: "Civil Services",
+                    description: "UPSC Prelims, Mains, State PSCs",
+                    category: "Civil Services",
+                    totalTests: 12,
+                    isFree: false
+                }
+            ];
+            
+            const container = document.getElementById('testSeriesContainer');
+            container.innerHTML = '';
+            
+            mockSeries.forEach(series => {
+                const col = document.createElement('div');
+                col.className = 'col-md-3 mb-4';
+                
+                const iconClass = series.category === 'SSC' ? 'fa-graduation-cap' : 
+                                 series.category === 'Engineering' ? 'fa-flask' :
+                                 series.category === 'Medical' ? 'fa-medkit' : 'fa-landmark';
+                
+                const btnClass = series.category === 'SSC' ? 'btn-outline-primary' : 
+                                series.category === 'Engineering' ? 'btn-outline-success' :
+                                series.category === 'Medical' ? 'btn-outline-danger' : 'btn-outline-warning';
+                
+                col.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas ${iconClass} fa-3x mb-3 text-${series.category === 'SSC' ? 'primary' : 
+                                                                       series.category === 'Engineering' ? 'success' :
+                                                                       series.category === 'Medical' ? 'danger' : 'warning'}"></i>
+                            <h5 class="card-title">${series.name}</h5>
+                            <p class="card-text">${series.description}</p>
+                            <a href="#" class="btn ${btnClass}">View Tests</a>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(col);
+            });
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Login/Signup Modal Toggle
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+            });
+            
+            document.getElementById('signupBtn').addEventListener('click', function() {
+                var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+                signupModal.show();
+            });
+            
+            document.getElementById('heroSignupBtn').addEventListener('click', function() {
+                var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+                signupModal.show();
+            });
+            
+            document.getElementById('showSignupFromLogin').addEventListener('click', function(e) {
+                e.preventDefault();
+                var loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                loginModal.hide();
+                var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+                signupModal.show();
+            });
+            
+            document.getElementById('showLoginFromSignup').addEventListener('click', function(e) {
+                e.preventDefault();
+                var signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
+                signupModal.hide();
+                var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+            });
+            
+            // Form Submission
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                // In a real app, this would be an API call
+                // For demo, we'll just check if email and password are not empty
+                if (email && password) {
+                    // Mock user data
+                    currentUser = {
+                        id: 'user123',
+                        name: 'Demo User',
+                        email: email,
+                        examCategory: 'SSC'
+                    };
+                    
+                    // Store user in session
+                    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    // Hide modal and show dashboard
+                    var loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                    loginModal.hide();
+                    
+                    showDashboard();
+                } else {
+                    alert('Please enter both email and password');
+                }
+            });
+            
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                const examCategory = document.getElementById('signupExamCategory').value;
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+                
+                if (!name || !email || !password || !examCategory) {
+                    alert('Please fill all fields');
+                    return;
+                }
+                
+                // In a real app, this would be an API call
+                // For demo, we'll just proceed
+                var signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
+                signupModal.hide();
+                
+                // Show success message
+                alert('Account created successfully! Please login to continue.');
+                var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+            });
+            
+            // Start test buttons (delegated event listener)
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('start-test-btn')) {
+                    e.preventDefault();
+                    const testId = e.target.getAttribute('data-test-id');
+                    startTest(testId);
+                }
+                
+                if (e.target.classList.contains('view-analysis-btn')) {
+                    e.preventDefault();
+                    showTestAnalysis();
+                }
+            });
+            
+            // Navigation buttons in test interface
+            document.getElementById('saveNextBtn').addEventListener('click', function() {
+                navigateQuestion(1);
+            });
+            
+            document.getElementById('markForReviewBtn').addEventListener('click', function() {
+                const questionNumber = currentTest.currentQuestionIndex + 1;
+                if (currentTest.markedForReview.includes(questionNumber)) {
+                    currentTest.markedForReview = currentTest.markedForReview.filter(q => q !== questionNumber);
+                    this.classList.remove('btn-warning');
+                    this.classList.add('btn-outline-primary');
+                    this.textContent = 'Mark & Save For Review';
+                } else {
+                    currentTest.markedForReview.push(questionNumber);
+                    this.classList.remove('btn-outline-primary');
+                    this.classList.add('btn-warning');
+                    this.textContent = 'Marked For Review';
+                }
+                
+                // Update question palette
+                updateQuestionPalette();
+            });
+            
+            document.getElementById('clearResponseBtn').addEventListener('click', function() {
+                const questionNumber = currentTest.currentQuestionIndex + 1;
+                delete currentTest.responses[questionNumber];
+                
+                // Clear selection
+                document.querySelectorAll('.option-item').forEach(item => {
+                    item.classList.remove('selected');
+                    const radio = item.querySelector('input[type="radio"]');
+                    if (radio) radio.checked = false;
+                });
+                
+                // Update counts
+                updateAnsweredCount();
+                updateQuestionPalette();
+            });
+            
+            document.getElementById('submitTestBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to submit the test?')) {
+                    submitTest();
+                }
+            });
+            
+            document.getElementById('quitTestBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to quit the test? Your progress will be lost.')) {
+                    clearInterval(currentTest.timerInterval);
+                    showDashboard();
+                }
+            });
+            
+            // Dashboard navigation
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    sessionStorage.removeItem('currentUser');
+                    currentUser = null;
+                    document.getElementById('dashboardInterface').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    document.getElementById('mainFooter').style.display = 'block';
+                }
+            });
+            
+            document.getElementById('backToDashboard').addEventListener('click', function(e) {
+                e.preventDefault();
+                showDashboard();
+            });
+            
+            // Contact form submission
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your message! We will get back to you soon.');
+                var contactModal = bootstrap.Modal.getInstance(document.getElementById('contactModal'));
+                contactModal.hide();
+            });
+            
+            // Forgot password form submission
+            document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Password reset instructions have been sent to your email.');
+                var forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+                forgotModal.hide();
+            });
+        }
+        
+        // Show dashboard
+        function showDashboard() {
+            // Hide other interfaces
+            document.getElementById('testInterface').style.display = 'none';
+            document.getElementById('testAnalysisInterface').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+            
+            // Show dashboard
+            document.getElementById('dashboardInterface').style.display = 'block';
+            document.getElementById('mainFooter').style.display = 'block';
+            
+            // Update user info
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userEmail').textContent = currentUser.email;
+                document.getElementById('analysisUserName').textContent = currentUser.name;
+                document.getElementById('analysisUserEmail').textContent = currentUser.email;
             }
-        });
+            
+            // Load dashboard data
+            loadDashboardData();
+            
+            // Initialize charts
+            initializeDashboard();
+        }
         
-        document.getElementById('backToDashboard').addEventListener('click', function(e) {
-            e.preventDefault();
-            showDashboard();
-        });
+        // Load dashboard data
+        function loadDashboardData() {
+            // In a real app, this would be API calls
+            // For demo, we'll use mock data
+            
+            // Dashboard stats
+            const stats = {
+                testsAttempted: 12,
+                rank: 1245,
+                accuracy: 78,
+                nextTest: "SSC CGL Tier-I Mock 16",
+                nextTestDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+            };
+            
+            const formattedDate = stats.nextTestDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                month: 'short', 
+                day: 'numeric'
+            });
+            
+            document.getElementById('dashboardStats').innerHTML = `
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Tests Attempted</h6>
+                            <h3 class="card-title">${stats.testsAttempted}</h3>
+                            <p class="card-text text-success"><small>+2 this week</small></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">All India Rank</h6>
+                            <h3 class="card-title">#${stats.rank.toLocaleString()}</h3>
+                            <p class="card-text text-success"><small>Improved by 324</small></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Accuracy</h6>
+                            <h3 class="card-title">${stats.accuracy}%</h3>
+                            <div class="progress mt-2">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: ${stats.accuracy}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Next Test</h6>
+                            <h5 class="card-title">${stats.nextTest}</h5>
+                            <p class="card-text"><small>${formattedDate}, 10:00 AM</small></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Recent tests
+            const recentTests = [
+                {
+                    id: "test1",
+                    name: "SSC CGL Tier-I Mock 15",
+                    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+                    score: "145/200",
+                    rank: 1245,
+                    accuracy: "82%"
+                },
+                {
+                    id: "test2",
+                    name: "SSC CHSL Mock 8",
+                    date: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000),
+                    score: "120/200",
+                    rank: 2156,
+                    accuracy: "75%"
+                },
+                {
+                    id: "test3",
+                    name: "All India SSC GK Test",
+                    date: new Date(Date.now() - 16 * 24 * 60 * 60 * 1000),
+                    score: "85/100",
+                    rank: 856,
+                    accuracy: "85%"
+                }
+            ];
+            
+            const tableBody = document.querySelector('#recentTestsTable tbody');
+            tableBody.innerHTML = '';
+            
+            recentTests.forEach(test => {
+                const row = document.createElement('tr');
+                const formattedDate = test.date.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                
+                row.innerHTML = `
+                    <td>${test.name}</td>
+                    <td>${formattedDate}</td>
+                    <td>${test.score}</td>
+                    <td>#${test.rank.toLocaleString()}</td>
+                    <td>${test.accuracy}</td>
+                    <td><a href="#" class="btn btn-sm btn-outline-primary view-analysis-btn" data-test-id="${test.id}">View Analysis</a></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Improvement tip
+            document.getElementById('improvementTip').innerHTML = `
+                <h5><i class="fas fa-lightbulb me-2 text-warning"></i> Improvement Tip</h5>
+                <p>Your performance in Quantitative Aptitude is strong (85% accuracy), but you need to focus more on General Awareness (62% accuracy). Try spending 30 minutes daily on current affairs to improve.</p>
+                <p class="mb-0"><strong>Motivation:</strong> "Success is the sum of small efforts, repeated day in and day out." - Robert Collier</p>
+            `;
+        }
         
         // Initialize Dashboard Charts
         function initializeDashboard() {
@@ -1307,6 +1757,281 @@
             });
         }
         
+        // Show test analysis
+        function showTestAnalysis() {
+            // Hide other interfaces
+            document.getElementById('dashboardInterface').style.display = 'none';
+            document.getElementById('testInterface').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+            
+            // Show test analysis
+            document.getElementById('testAnalysisInterface').style.display = 'block';
+            document.getElementById('mainFooter').style.display = 'block';
+            
+            // Load test analysis data
+            loadTestAnalysisData();
+            
+            // Initialize charts
+            initializeTestAnalysis();
+        }
+        
+        // Load test analysis data
+        function loadTestAnalysisData() {
+            // In a real app, this would be API calls
+            // For demo, we'll use mock data
+            
+            // Test info
+            document.getElementById('analysisTestTitle').textContent = 'SSC CGL Tier-I Mock Test 15 - Analysis';
+            document.getElementById('analysisTestDetails').textContent = 'Attempted on Apr 24, 2024 | Duration: 1 Hour';
+            document.getElementById('analysisTestScore').textContent = '145/200';
+            document.getElementById('analysisTestRank').textContent = 'All India Rank: #1,245';
+            
+            // Test summary cards
+            document.getElementById('testSummaryCards').innerHTML = `
+                <div class="col-md-4">
+                    <div class="analysis-card">
+                        <div class="analysis-card-header bg-primary text-white">
+                            Attempted Questions
+                        </div>
+                        <div class="analysis-card-body p-3 text-center">
+                            <h2>65</h2>
+                            <p>out of 100</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="analysis-card">
+                        <div class="analysis-card-header bg-success text-white">
+                            Correct Answers
+                        </div>
+                        <div class="analysis-card-body p-3 text-center">
+                            <h2>53</h2>
+                            <p>Accuracy: 81.5%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="analysis-card">
+                        <div class="analysis-card-header bg-danger text-white">
+                            Wrong Answers
+                        </div>
+                        <div class="analysis-card-body p-3 text-center">
+                            <h2>12</h2>
+                            <p>Negative Marks: -4</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Sectional analysis
+            const sectionalData = [
+                {
+                    section: 'Quantitative Aptitude',
+                    questions: 25,
+                    attempted: 20,
+                    correct: 18,
+                    wrong: 2,
+                    score: '70/75',
+                    accuracy: '90%',
+                    percentile: 95.4
+                },
+                {
+                    section: 'General Intelligence',
+                    questions: 25,
+                    attempted: 22,
+                    correct: 17,
+                    wrong: 5,
+                    score: '49/75',
+                    accuracy: '77.3%',
+                    percentile: 82.1
+                },
+                {
+                    section: 'English Language',
+                    questions: 25,
+                    attempted: 15,
+                    correct: 12,
+                    wrong: 3,
+                    score: '33/75',
+                    accuracy: '80%',
+                    percentile: 78.5
+                },
+                {
+                    section: 'General Awareness',
+                    questions: 25,
+                    attempted: 8,
+                    correct: 6,
+                    wrong: 2,
+                    score: '16/75',
+                    accuracy: '75%',
+                    percentile: 65.2
+                }
+            ];
+            
+            const sectionalTable = document.querySelector('#sectionalAnalysisTable tbody');
+            sectionalTable.innerHTML = '';
+            
+            sectionalData.forEach(section => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${section.section}</td>
+                    <td>${section.questions}</td>
+                    <td>${section.attempted}</td>
+                    <td>${section.correct}</td>
+                    <td>${section.wrong}</td>
+                    <td>${section.score}</td>
+                    <td>${section.accuracy}</td>
+                    <td>${section.percentile}</td>
+                `;
+                sectionalTable.appendChild(row);
+            });
+            
+            // Question analysis
+            const questionAnalysisContainer = document.getElementById('questionAnalysisContainer');
+            questionAnalysisContainer.innerHTML = '';
+            
+            // For demo, we'll show analysis for 3 questions
+            const demoQuestions = [
+                {
+                    id: 1,
+                    text: "A shopkeeper gives a 10% discount and still earns 10% profit. The marked price of the item is how many times (correct to 2 decimal places) the cost price?",
+                    options: ["1.28", "1.24", "1.22", "1.20"],
+                    correctAnswer: 2, // Index of correct answer (0-based)
+                    solution: "Let the cost price (CP) be ₹100. With 10% profit, selling price (SP) = ₹110. This SP is after 10% discount on marked price (MP). So, 90% of MP = ₹110 → MP = ₹110 × (100/90) = ₹122.22. Therefore, MP/CP = 122.22/100 = 1.22",
+                    difficulty: "Medium",
+                    attempted: 89,
+                    correct: 45,
+                    avgTime: 62,
+                    userAnswer: 2, // User got it correct
+                    timeTaken: 45
+                },
+                {
+                    id: 2,
+                    text: "If the ratio of the ages of A and B is 3:5 and the sum of their ages is 80 years, what is the age of B?",
+                    options: ["30 years", "40 years", "50 years", "60 years"],
+                    correctAnswer: 2,
+                    solution: "Let the ages of A and B be 3x and 5x respectively. According to the problem, 3x + 5x = 80 → 8x = 80 → x = 10. Therefore, age of B = 5x = 5 × 10 = 50 years.",
+                    difficulty: "Easy",
+                    attempted: 95,
+                    correct: 78,
+                    avgTime: 45,
+                    userAnswer: 1, // User got it wrong
+                    timeTaken: 30
+                },
+                {
+                    id: 3,
+                    text: "A train 150 meters long is running at a speed of 90 km/h. How long will it take to pass a 200-meter-long platform?",
+                    options: ["10 seconds", "12 seconds", "14 seconds", "16 seconds"],
+                    correctAnswer: 2,
+                    solution: "Total distance to cover = length of train + length of platform = 150 + 200 = 350 meters. Speed = 90 km/h = 90 × (5/18) = 25 m/s. Time = Distance/Speed = 350/25 = 14 seconds.",
+                    difficulty: "Medium",
+                    attempted: 82,
+                    correct: 55,
+                    avgTime: 75,
+                    userAnswer: null, // User didn't attempt
+                    timeTaken: 0
+                }
+            ];
+            
+            demoQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                
+                let statusBadge = '';
+                if (q.userAnswer === null) {
+                    statusBadge = '<span class="badge bg-secondary">Not Attempted</span>';
+                } else if (q.userAnswer === q.correctAnswer) {
+                    statusBadge = '<span class="badge bg-success">Correct</span>';
+                } else {
+                    statusBadge = '<span class="badge bg-danger">Incorrect</span>';
+                }
+                
+                let optionsHtml = '';
+                q.options.forEach((option, i) => {
+                    let optionClass = 'option-item';
+                    if (i === q.correctAnswer) optionClass += ' correct';
+                    if (i === q.userAnswer && i !== q.correctAnswer) optionClass += ' incorrect';
+                    
+                    optionsHtml += `
+                        <div class="${optionClass}">
+                            <input type="radio" name="analysisOption${q.id}" id="analysisOption${q.id}_${i}" class="me-2" 
+                                ${i === q.userAnswer ? 'checked' : ''} disabled>
+                            <label for="analysisOption${q.id}_${i}">${option}</label>
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5>Question ${index + 1}</h5>
+                        ${statusBadge}
+                    </div>
+                    <div class="question-text mb-4">
+                        <p>${q.text}</p>
+                    </div>
+                    
+                    <div class="options-container mb-4">
+                        ${optionsHtml}
+                    </div>
+                    
+                    <div class="solution-container">
+                        <h6>Solution:</h6>
+                        <p>${q.solution}</p>
+                        ${i === q.correctAnswer ? `<p class="text-success"><strong>Correct Answer: ${q.options[q.correctAnswer]}</strong></p>` : ''}
+                    </div>
+                    
+                    <div class="statistics mt-4">
+                        <h6>Statistics:</h6>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p><strong>Attempted:</strong> ${q.attempted}%</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p><strong>Correct:</strong> ${q.correct}%</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p><strong>Difficulty:</strong> ${q.difficulty}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p><strong>Time Taken:</strong> ${q.userAnswer !== null ? q.timeTaken + 's' : 'N/A'} (Avg: ${q.avgTime}s)</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                questionAnalysisContainer.appendChild(questionDiv);
+            });
+            
+            // Percentile
+            document.getElementById('percentileText').textContent = 'Percentile: 92.5';
+            document.querySelector('.progress-bar').style.width = '92.5%';
+            
+            // Top performers
+            const topPerformers = [
+                { rank: 1, name: 'Rahul Sharma', score: '195/200', accuracy: '97.5%' },
+                { rank: 2, name: 'Priya Patel', score: '188/200', accuracy: '94%' },
+                { rank: 3, name: 'Amit Singh', score: '182/200', accuracy: '91%' },
+                { rank: '...', name: '...', score: '...', accuracy: '...' },
+                { rank: 1245, name: 'You', score: '145/200', accuracy: '81.5%' }
+            ];
+            
+            const topPerformersTable = document.querySelector('#topPerformersTable tbody');
+            topPerformersTable.innerHTML = '';
+            
+            topPerformers.forEach(performer => {
+                const row = document.createElement('tr');
+                if (performer.name === 'You') row.classList.add('table-info');
+                
+                row.innerHTML = `
+                    <td>${performer.rank}</td>
+                    <td>${performer.name}</td>
+                    <td>${performer.score}</td>
+                    <td>${performer.accuracy}</td>
+                `;
+                
+                topPerformersTable.appendChild(row);
+            });
+        }
+        
         // Initialize Test Analysis Charts
         function initializeTestAnalysis() {
             // Score Distribution Chart
@@ -1334,48 +2059,60 @@
             });
         }
         
-        // Show dashboard
-        function showDashboard() {
-            // Hide other interfaces
-            document.getElementById('testInterface').style.display = 'none';
-            document.getElementById('testAnalysisInterface').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'none';
-            
-            // Show dashboard
-            document.getElementById('dashboardInterface').style.display = 'block';
-            document.getElementById('mainFooter').style.display = 'block';
-            
-            // Initialize charts
-            initializeDashboard();
-        }
-        
-        // Show test analysis
-        function showTestAnalysis() {
-            // Hide other interfaces
-            document.getElementById('dashboardInterface').style.display = 'none';
-            document.getElementById('testInterface').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'none';
-            
-            // Show test analysis
-            document.getElementById('testAnalysisInterface').style.display = 'block';
-            document.getElementById('mainFooter').style.display = 'block';
-            
-            // Initialize charts
-            initializeTestAnalysis();
-        }
-        
         // Start a test
         function startTest(testId) {
             // Set up test
             currentTest = {
                 id: testId,
-                questions: demoQuestions,
+                questions: [],
                 currentQuestionIndex: 0,
                 responses: {},
                 markedForReview: [],
                 startTime: new Date(),
-                timerInterval: null
+                timerInterval: null,
+                timeLeft: 0
             };
+            
+            // In a real app, this would be an API call to get test questions
+            // For demo, we'll use mock questions
+            currentTest.questions = [
+                {
+                    id: 1,
+                    text: "A shopkeeper gives a 10% discount and still earns 10% profit. The marked price of the item is how many times (correct to 2 decimal places) the cost price?",
+                    options: ["1.28", "1.24", "1.22", "1.20"],
+                    correctAnswer: 2, // Index of correct answer (0-based)
+                    solution: "Let the cost price (CP) be ₹100. With 10% profit, selling price (SP) = ₹110. This SP is after 10% discount on marked price (MP). So, 90% of MP = ₹110 → MP = ₹110 × (100/90) = ₹122.22. Therefore, MP/CP = 122.22/100 = 1.22",
+                    difficulty: "Medium",
+                    section: "Quantitative Aptitude"
+                },
+                {
+                    id: 2,
+                    text: "If the ratio of the ages of A and B is 3:5 and the sum of their ages is 80 years, what is the age of B?",
+                    options: ["30 years", "40 years", "50 years", "60 years"],
+                    correctAnswer: 2,
+                    solution: "Let the ages of A and B be 3x and 5x respectively. According to the problem, 3x + 5x = 80 → 8x = 80 → x = 10. Therefore, age of B = 5x = 5 × 10 = 50 years.",
+                    difficulty: "Easy",
+                    section: "Quantitative Aptitude"
+                },
+                {
+                    id: 3,
+                    text: "A train 150 meters long is running at a speed of 90 km/h. How long will it take to pass a 200-meter-long platform?",
+                    options: ["10 seconds", "12 seconds", "14 seconds", "16 seconds"],
+                    correctAnswer: 2,
+                    solution: "Total distance to cover = length of train + length of platform = 150 + 200 = 350 meters. Speed = 90 km/h = 90 × (5/18) = 25 m/s. Time = Distance/Speed = 350/25 = 14 seconds.",
+                    difficulty: "Medium",
+                    section: "Quantitative Aptitude"
+                }
+            ];
+            
+            // Set test duration based on test ID (for demo)
+            if (testId === "ssc1") {
+                currentTest.timeLeft = 60 * 60; // 60 minutes
+            } else if (testId === "neet1") {
+                currentTest.timeLeft = 180 * 60; // 180 minutes
+            } else {
+                currentTest.timeLeft = 30 * 60; // Default 30 minutes
+            }
             
             // Hide other interfaces
             document.getElementById('dashboardInterface').style.display = 'none';
@@ -1393,13 +2130,13 @@
             else if (testId === "gate1") testTitle = "GATE 2025 Mock Test";
             
             document.getElementById('testTitle').textContent = testTitle;
-            document.getElementById('totalQuestions').textContent = demoQuestions.length;
+            document.getElementById('totalQuestions').textContent = currentTest.questions.length;
             
             // Initialize question palette
             const palette = document.getElementById('questionPalette');
             palette.innerHTML = '';
             
-            for (let i = 0; i < demoQuestions.length; i++) {
+            for (let i = 0; i < currentTest.questions.length; i++) {
                 const col = document.createElement('div');
                 col.className = 'col-2 col-md-1';
                 const btn = document.createElement('button');
@@ -1413,24 +2150,35 @@
             }
             
             // Start timer
-            let timeLeft = 30 * 60; // 30 minutes
             const timer = document.getElementById('testTimer');
+            updateTimerDisplay();
             
             currentTest.timerInterval = setInterval(function() {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                currentTest.timeLeft--;
+                updateTimerDisplay();
                 
-                if (timeLeft <= 0) {
+                if (currentTest.timeLeft <= 0) {
                     clearInterval(currentTest.timerInterval);
                     submitTest();
-                } else {
-                    timeLeft--;
                 }
             }, 1000);
             
             // Load first question
             loadQuestion(0);
+        }
+        
+        // Update timer display
+        function updateTimerDisplay() {
+            const timer = document.getElementById('testTimer');
+            const minutes = Math.floor(currentTest.timeLeft / 60);
+            const seconds = currentTest.timeLeft % 60;
+            timer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            // Change color when time is running low
+            if (currentTest.timeLeft <= 300) { // 5 minutes or less
+                timer.classList.remove('text-primary');
+                timer.classList.add('text-danger');
+            }
         }
         
         // Load a question
@@ -1577,12 +2325,6 @@
             // For demo, show test analysis
             showTestAnalysis();
         }
-        
-        // For demo - automatically show dashboard on page load
-        window.addEventListener('load', function() {
-            // Uncomment this line to automatically show dashboard (for demo)
-            // showDashboard();
-        });
     </script>
 </body>
 </html>
